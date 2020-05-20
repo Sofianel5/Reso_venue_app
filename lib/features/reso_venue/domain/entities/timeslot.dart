@@ -20,6 +20,7 @@ class TimeSlot extends Equatable {
     this.past,
     this.type,
   });
+  static const List<String> types = ["All", "Elderly", "Frontline"];
 
   @override
   List<Object> get props =>

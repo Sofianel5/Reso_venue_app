@@ -6,6 +6,6 @@ class AddTimeSlotAttempt extends AddTimeSlotEvent {
   final String type;
   final DateTime start;
   final DateTime stop;
-  int numAttendees;
-  AddTimeSlotAttempt({this.type, this.start, this.stop});
+  final int numAttendees;
+  AddTimeSlotAttempt({this.type, this.start, this.stop, this.numAttendees});
 }

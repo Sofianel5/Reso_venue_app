@@ -73,29 +73,22 @@ class _HomePageState extends State<HomePage> {
                 },
                 items: <Widget>[
                   Icon(
-                    Icons.home,
+                    Icons.list,
                     size: 30,
                     color: _selectedPage == 0
                         ? Theme.of(context).scaffoldBackgroundColor
                         : Colors.black,
                   ),
                   Icon(
-                    Icons.search,
+                    Icons.add,
                     size: 30,
                     color: _selectedPage == 1
                         ? Theme.of(context).scaffoldBackgroundColor
                         : Colors.black,
                   ),
                   Icon(
-                    Icons.memory,
+                    Icons.camera,
                     color: _selectedPage == 2
-                        ? Theme.of(context).scaffoldBackgroundColor
-                        : Colors.black,
-                  ),
-                  Icon(
-                    Icons.list,
-                    size: 30,
-                    color: _selectedPage == 3
                         ? Theme.of(context).scaffoldBackgroundColor
                         : Colors.black,
                   ),
