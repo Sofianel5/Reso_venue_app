@@ -47,35 +47,3 @@ class Venue extends Equatable {
     "Education"
   ];
 }
-
-class VenueDetail extends Venue {
-  final List<TimeSlot> bookableTimeSlots;
-  final User admin;
-  VenueDetail({
-    int id,
-    String type,
-    String description,
-    String title,
-    String timezone,
-    String image,
-    String phone,
-    String email,
-    String website,
-    Coordinates coordinates,
-    Address address,
-    this.admin,
-    this.bookableTimeSlots,
-  }) : super(
-          id: id,
-          type: type,
-          description: description,
-          title: title,
-          timezone: timezone,
-          image: image,
-          phone: phone,
-          email: email,
-          website: website,
-          coordinates: coordinates,
-          address: address,
-        );
-}

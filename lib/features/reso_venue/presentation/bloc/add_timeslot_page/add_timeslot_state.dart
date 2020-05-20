@@ -8,6 +8,10 @@ class AddTimeSlotInitial extends AddTimeSlotState {
   AddTimeSlotInitial(User user) : super(user);
 }
 
+class AddTimeSlotLoading extends AddTimeSlotState {
+  AddTimeSlotLoading(User user) : super(user);
+}
+
 class AddTimeSlotFailure extends AddTimeSlotState {
   final String message;
   AddTimeSlotFailure(User user, this.message) : super(user);

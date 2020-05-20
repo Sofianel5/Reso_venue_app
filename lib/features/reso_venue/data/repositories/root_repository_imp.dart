@@ -69,6 +69,8 @@ class RootRepositoryImpl implements RootRepository {
         "APP-VERSION": appVersion
       });
       final UserModel user = await remoteDataSource.getUser(header);
+      print("User in get");
+      print(user);
       try {
         localDataSource.cacheUser(user);
       } catch (e) {
@@ -83,15 +85,16 @@ class RootRepositoryImpl implements RootRepository {
     return await _getUser(() async {
       final String authToken =
           await remoteDataSource.login(email: email, password: password);
-      print("trying to cache token");
       final String appVersion = Constants.APP_VERSION.toString();
-      localDataSource.cacheAuthToken(authToken);
       Map<String, String> header = Map<String, String>.from(<String, String>{
         "Authorization": "Token " + authToken.toString(),
         "APP-VERSION": appVersion
       });
       print("getting user");
       final User user = await remoteDataSource.getUser(header);
+      print("User in login");
+      print(user);
+      localDataSource.cacheAuthToken(authToken);
       return Right(user);
     });
   }
@@ -179,7 +182,7 @@ class RootRepositoryImpl implements RootRepository {
         final String authToken = await localDataSource.getAuthToken();
         Map<String, String> header = Map<String, String>.from(
             <String, String>{"Authorization": "Token " + authToken.toString()});
-        bool res = await remoteDataSource.addTimeSlot(start: start, stop: stop,numAttendees:  numAttendees, type: type, headers: header);
+        bool res = await remoteDataSource.addTimeSlot(start: start, stop: stop, numAttendees:  numAttendees, type: type, venue: venue, headers: header);
         return Right(res);
       } on AuthenticationException {
         return Left(

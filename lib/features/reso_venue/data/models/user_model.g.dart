@@ -24,6 +24,9 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     address: json['address'] == null
         ? null
         : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
+    venue: json['venue'] == null
+        ? null
+        : VenueModel.fromJson(json['venue'] as Map<String, dynamic>),
   );
 }
 
@@ -37,4 +40,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'is_locked': instance.isLocked,
       'coordinates': instance.coordinates?.toJson(),
       'address': instance.address?.toJson(),
+      'venue': instance.venue?.toJson(),
     };

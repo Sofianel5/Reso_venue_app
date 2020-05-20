@@ -3,7 +3,7 @@ part of '../root_bloc.dart';
 class TimeSlotsBloc extends Bloc<TimeSlotEvent, TimeSlotsState> {
   final GetTimeSlots getTimeSlots;
   final User user;
-  TimeSlotsBloc({this.getTimeSlots, this.user}) {
+  TimeSlotsBloc({@required this.getTimeSlots,@required this.user}) {
     this.add(TimeSlotCreation());
   }
   Map<String, List<TimeSlot>> timeSlots;

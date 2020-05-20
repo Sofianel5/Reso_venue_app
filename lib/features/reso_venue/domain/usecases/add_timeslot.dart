@@ -30,5 +30,5 @@ class AddTimeSlotParams extends Params {
   final int numAttendees;
   AddTimeSlotParams({@required this.type, @required this.venue, @required this.start, @required this.end, @required this.numAttendees});
   @override
-  List<Object> get props => [start, end];
+  List<Object> get props => [start, end, venue, type, numAttendees];
 }

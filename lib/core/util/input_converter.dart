@@ -50,7 +50,10 @@ class InputConverter {
   }
 
   Either<Failure, bool> validateTimeSlotForm(DateTime start, DateTime stop) {
-    if (stop.compareTo(start) > 0 && start.compareTo(DateTime.now()) > 0){
+    if (start == null || stop == null) {
+      return Left(InvalidInputFailure(message: Messages.NULL_TIME_FIELD));
+    }
+    if (stop.compareTo(start) > 0){
       return Right(true);
     } else {
       return Left(InvalidInputFailure(message: Messages.INVALID_ORDER));

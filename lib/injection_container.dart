@@ -9,6 +9,7 @@ import 'features/reso_venue/data/datasources/local_datasource.dart';
 import 'features/reso_venue/data/datasources/remote_datasource.dart';
 import 'features/reso_venue/data/repositories/root_repository_imp.dart';
 import 'features/reso_venue/domain/repositories/root_repository.dart';
+import 'features/reso_venue/domain/usecases/add_timeslot.dart';
 import 'features/reso_venue/domain/usecases/get_cached_user.dart';
 import 'features/reso_venue/domain/usecases/get_timeslots.dart';
 import 'features/reso_venue/domain/usecases/get_user.dart';
@@ -19,9 +20,10 @@ import 'features/reso_venue/presentation/bloc/root_bloc.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
-  sl.registerFactory(() => RootBloc(getExistingUser: sl(), getCachedUser: sl(), login: sl(), logout: sl(), getTimeSlots: sl(), scan: sl()));
+  sl.registerFactory(() => RootBloc(addTimeSlot: sl(), getExistingUser: sl(), getCachedUser: sl(), login: sl(), logout: sl(), getTimeSlots: sl(), scan: sl()));
 
   // Usecases
+  sl.registerLazySingleton<AddTimeSlot>(() => AddTimeSlot(sl()));
   sl.registerLazySingleton<GetExistingUser>(() => GetExistingUser(sl()));
   sl.registerLazySingleton<GetCachedUser>(() => GetCachedUser(sl()));
   sl.registerLazySingleton<Login>(() => Login(sl()));

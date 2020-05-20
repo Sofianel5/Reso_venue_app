@@ -1,3 +1,4 @@
+import 'package:Reso_venue/features/reso_venue/data/models/venue_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
@@ -12,6 +13,7 @@ part 'user_model.g.dart';
 class UserModel extends User implements Model {
   final CoordinatesModel coordinates;
   final AddressModel address;
+  final VenueModel venue;
   UserModel({
     @required int id,
     String email,
@@ -22,6 +24,7 @@ class UserModel extends User implements Model {
     bool isLocked,
     this.coordinates,
     this.address,
+    this.venue,
   }) : super(
           id: id,
           email: email,

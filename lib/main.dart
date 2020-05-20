@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/localizations/localizations.dart';
 import 'features/reso_venue/presentation/bloc/root_bloc.dart';
+import 'features/reso_venue/presentation/pages/root.dart';
 import 'injection_container.dart' as ic;
 
 void main() async {

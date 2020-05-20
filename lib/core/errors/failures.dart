@@ -62,3 +62,11 @@ class NeedsUpdateFailure extends Failure {
 class NotAdminFailure extends Failure {
   NotAdminFailure() : super(message: Messages.NOT_ADMIN);
 }
+
+class LockedFailure extends Failure {
+  LockedFailure() : super(message: Messages.LOCKED_USER);
+}
+
+class NotRegisteredFailure extends Failure {
+  NotRegisteredFailure() : super(message: Messages.NOT_REGISTERED);
+}

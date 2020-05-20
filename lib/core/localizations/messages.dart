@@ -12,7 +12,7 @@ class Messages {
   static const String NULL_NAME_INPUT = "NULL_NAME_INPUT";
   static const String NULL_EMAIL_INPUT = "NULL_EMAIL_INPUT";
   static const String INVALID_EMAIL_INPUT = "INVALID_EMAIL_INPUT";
-  static const String INVALID_NAME_INPUT = "INVALID_NAME_INPUT";
+  static const String NULL_TIME_FIELD = "NULL_TIME_FIELD";
   static const String INVALID_LENGTH_NAME_INPUT = "INVALID_LENGTH_NAME_INPUT";
   static const String INVALID_LENGTH_EMAIL = "INVALID_LENGTH_EMAIL";
   static const String INVALID_FORM = "INVALID_FORM";

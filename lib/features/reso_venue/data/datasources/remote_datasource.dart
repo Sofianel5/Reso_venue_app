@@ -166,7 +166,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     Map<String, String> data = Map<String, String>.from(<String, String>{
       "start": start.toIso8601String(),
       "stop": stop.toIso8601String(),
-      "numAttendees": numAttendees.toString(),
+      "max_attendees": numAttendees.toString(),
       "type": type,
     });
     final response = await client.post(Urls.addTimeSlotUrl(venue.id), headers: headers, body: data);
