@@ -17,6 +17,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       }, (res) async* {
         yield ScanSuccessfulState(user);
       });
+    } else if (event is ScanDissmissed) {
+      yield ScanIdleState(user);
     }
   }
   

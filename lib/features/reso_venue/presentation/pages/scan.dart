@@ -24,7 +24,9 @@ class _ScanScreenState extends State<ScanScreen> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      BlocProvider.of<ScanBloc>(context).add(ScanAttempted(scanData));
+      if (!(BlocProvider.of<ScanBloc>(context) is ScanLockedState)) {
+        BlocProvider.of<ScanBloc>(context).add(ScanAttempted(scanData));
+      }
     });
   }
 
@@ -50,6 +52,7 @@ class _ScanScreenState extends State<ScanScreen> {
                     ),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop();
+                       BlocProvider.of<ScanBloc>(context).add(ScanDissmissed());
                     },
                   ),
                 ],

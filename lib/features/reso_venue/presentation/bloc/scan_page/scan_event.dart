@@ -8,3 +8,5 @@ class ScanAttempted extends ScanEvent {
   String uuid;
   ScanAttempted(this.uuid);
 }
+
+class ScanDissmissed extends ScanEvent {}
