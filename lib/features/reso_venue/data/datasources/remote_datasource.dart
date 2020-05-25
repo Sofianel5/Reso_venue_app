@@ -148,6 +148,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       "to": userId,
     });
     final response = await client.post(Urls.getScanUrl(venue.id), headers: headers, body: data);
+    print(response.body);
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 417) {

@@ -57,6 +57,7 @@ class _HomePageState extends State<HomePage> {
           bloc: BlocProvider.of<HomePageBloc>(context),
           builder: (context, state) {
             return Scaffold(
+              resizeToAvoidBottomInset: false,
               backgroundColor: Color(0xFFF3F5F7),
               body: _mainPages[_selectedPage],
               bottomNavigationBar: CurvedNavigationBar(

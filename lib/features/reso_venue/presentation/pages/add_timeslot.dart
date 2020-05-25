@@ -34,125 +34,128 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
         bloc: BlocProvider.of<AddTimeSlotBloc>(context),
         builder: (context, state) => Padding(
           padding: EdgeInsets.symmetric(vertical: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              buildTopPadding(state),
-              SizedBox(height: 20.0),
-              Container(
-                width: MediaQuery.of(context).size.width / 3,
-                child: TextField(
-                  //! Localize
-                  decoration: InputDecoration(labelText: "Num attendees"),
-                  controller: _numAttendees,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                buildTopPadding(state),
+                SizedBox(height: 20.0),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: TextField(
+                    //! Localize
+                    decoration: InputDecoration(labelText: "Num attendees"),
+                    controller: _numAttendees,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    //! Localize
+                    Text("start",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: DateTimeField(
+                        format: formatter,
+                        onShowPicker: (context, currentValue) async {
+                          final date = await showDatePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              initialDate: currentValue ??
+                                  DateTime.now().add(Duration(days: 7)),
+                              lastDate: DateTime(2100));
+                          if (date != null) {
+                            final time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                  currentValue ?? DateTime.now()),
+                            );
+                            return DateTimeField.combine(date, time);
+                          } else {
+                            return currentValue;
+                          }
+                        },
+                        onChanged: (date) => start = date,
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  //! Localize
-                  Text("start",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: DateTimeField(
-                      format: formatter,
-                      onShowPicker: (context, currentValue) async {
-                        final date = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime.now(),
-                            initialDate: currentValue ??
-                                DateTime.now().add(Duration(days: 7)),
-                            lastDate: DateTime(2100));
-                        if (date != null) {
-                          final time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(
-                                currentValue ?? DateTime.now()),
-                          );
-                          return DateTimeField.combine(date, time);
-                        } else {
-                          return currentValue;
-                        }
-                      },
-                      onChanged: (date) => start = date,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  //! Localize
-                  Text("stop",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: DateTimeField(
-                      format: formatter,
-                      onShowPicker: (context, currentValue) async {
-                        final date = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime.now(),
-                            initialDate: currentValue ??
-                                DateTime.now().add(Duration(days: 7)),
-                            lastDate: DateTime(2100));
-                        if (date != null) {
-                          final time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(
-                                currentValue ?? DateTime.now()),
-                          );
-                          return DateTimeField.combine(date, time);
-                        } else {
-                          return currentValue;
-                        }
-                      },
-                      onChanged: (date) => stop = date,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  //! Localize
-                  Text("type",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                  DropdownButton(
-                    dropdownColor: Colors.white,
-                    iconSize: 24,
-                    elevation: 16,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
                     //! Localize
-                    items: TimeSlot.types
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      type = value;
-                    },
-                    icon: Icon(Icons.arrow_downward),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              _buildSubmitButton(BlocProvider.of<AddTimeSlotBloc>(context)),
-            ],
+                    Text("stop",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: DateTimeField(
+                        format: formatter,
+                        onShowPicker: (context, currentValue) async {
+                          final date = await showDatePicker(
+                              context: context,
+                              firstDate: DateTime.now(),
+                              initialDate: currentValue ??
+                                  DateTime.now().add(Duration(days: 7)),
+                              lastDate: DateTime(2100));
+                          if (date != null) {
+                            final time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                  currentValue ?? DateTime.now()),
+                            );
+                            return DateTimeField.combine(date, time);
+                          } else {
+                            return currentValue;
+                          }
+                        },
+                        onChanged: (date) => stop = date,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    //! Localize
+                    Text("type",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
+                    DropdownButton(
+                      iconDisabledColor: Colors.white,
+                      value: type,
+                      iconSize: 24,
+                      elevation: 16,
+                      //! Localize
+                      items: TimeSlot.types
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        type = value;
+                      },
+                      icon: Icon(Icons.arrow_downward),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                _buildSubmitButton(BlocProvider.of<AddTimeSlotBloc>(context)),
+              ],
+            ),
           ),
         ),
       ),
@@ -183,7 +186,9 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
             height: MediaQuery.of(context).size.height / 10,
             child: Center(
               child: bloc.state is AddTimeSlotLoading
-                  ? CircularProgressIndicator(backgroundColor: Colors.white,)
+                  ? CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    )
                   : Text(
                       Localizer.of(context).get("submit") ?? "Submit",
                       style: TextStyle(
@@ -199,7 +204,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
 
   Padding buildTopPadding(AuthenticatedState state) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 50),
       child: Text(
         //! LOCALIZE
         "Add Time Slots",

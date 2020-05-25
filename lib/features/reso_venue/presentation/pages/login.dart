@@ -1,7 +1,9 @@
 import 'package:Reso_venue/core/localizations/localizations.dart';
+import 'package:Reso_venue/core/network/urls.dart';
 import 'package:Reso_venue/features/reso_venue/presentation/bloc/root_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -170,12 +172,21 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildForgotPasswordBtn(RootBloc bloc) {
+  _launchURL() async {
+    var url = Urls.PASSWORD_RESET_URL;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Widget _buildForgotPasswordBtn() {
     return Container(
       child: FlatButton(
-        onPressed: () => {},
-        child: Text(
-            Localizer.of(context).get("forgot-password") ?? "Forgot password?"),
+        onPressed: () =>
+            _launchURL(), 
+        child: Text(Localizer.of(context).get("forgot-password") ?? "Forgot password?"),
       ),
     );
   }
@@ -267,7 +278,7 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: 50,
                         ),
-                        _buildForgotPasswordBtn(bloc),
+                        _buildForgotPasswordBtn(),
                         SizedBox(
                           height: 30,
                         ),
