@@ -48,11 +48,13 @@ class _ScanScreenState extends State<ScanScreen> {
                     child: new Text(
                       //! Localize
                       "Dismiss",
-                      style: TextStyle(color: Theme.of(context).accentColor),
+                      style: TextStyle(
+                        color: Theme.of(context).accentColor,
+                      ),
                     ),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop();
-                       BlocProvider.of<ScanBloc>(context).add(ScanDissmissed());
+                      BlocProvider.of<ScanBloc>(context).add(ScanDissmissed());
                     },
                   ),
                 ],
@@ -89,6 +91,7 @@ class _ScanScreenState extends State<ScanScreen> {
                       ),
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).pop();
+                        BlocProvider.of<ScanBloc>(context).add(ScanDissmissed());
                       },
                     ),
                     new FlatButton(
@@ -98,6 +101,7 @@ class _ScanScreenState extends State<ScanScreen> {
                       ),
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).pop();
+                        BlocProvider.of<ScanBloc>(context).add(ScanDissmissed());
                       },
                     ),
                   ],

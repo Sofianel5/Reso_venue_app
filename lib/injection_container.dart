@@ -1,7 +1,7 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
 import 'core/util/input_converter.dart';
@@ -10,6 +10,7 @@ import 'features/reso_venue/data/datasources/remote_datasource.dart';
 import 'features/reso_venue/data/repositories/root_repository_imp.dart';
 import 'features/reso_venue/domain/repositories/root_repository.dart';
 import 'features/reso_venue/domain/usecases/add_timeslot.dart';
+import 'features/reso_venue/domain/usecases/delete_timeslot.dart';
 import 'features/reso_venue/domain/usecases/get_cached_user.dart';
 import 'features/reso_venue/domain/usecases/get_timeslots.dart';
 import 'features/reso_venue/domain/usecases/get_user.dart';
@@ -20,9 +21,10 @@ import 'features/reso_venue/presentation/bloc/root_bloc.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
-  sl.registerFactory(() => RootBloc(addTimeSlot: sl(), getExistingUser: sl(), getCachedUser: sl(), login: sl(), logout: sl(), getTimeSlots: sl(), scan: sl()));
+  sl.registerFactory(() => RootBloc(delete: sl(), addTimeSlot: sl(), getExistingUser: sl(), getCachedUser: sl(), login: sl(), logout: sl(), getTimeSlots: sl(), scan: sl()));
 
   // Usecases
+  sl.registerLazySingleton<DeleteTimeSlot>(() => DeleteTimeSlot(sl()));
   sl.registerLazySingleton<AddTimeSlot>(() => AddTimeSlot(sl()));
   sl.registerLazySingleton<GetExistingUser>(() => GetExistingUser(sl()));
   sl.registerLazySingleton<GetCachedUser>(() => GetCachedUser(sl()));

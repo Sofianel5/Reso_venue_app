@@ -19,6 +19,7 @@ abstract class RemoteDataSource {
   Future<Map<String, List<TimeSlot>>> getTimeSlots(int venueId, Map<String, dynamic> headers);
   Future<bool> scan(String userId, Venue venue, Map<String, dynamic> headers);
   Future<bool> addTimeSlot({DateTime start, Venue venue, DateTime stop, int numAttendees, String type, Map<String, dynamic> headers});
+  Future<bool> deleteTimeSlot(TimeSlot timeslot, Venue venue, Map<String, dynamic> headers);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -171,6 +172,19 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       "type": type,
     });
     final response = await client.post(Urls.addTimeSlotUrl(venue.id), headers: headers, body: data);
+    if (response.statusCode == 200) {
+      return true;
+    } else if (response.statusCode ~/ 100 == 4) {
+      throw AuthenticationException();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<bool> deleteTimeSlot(TimeSlot timeslot, Venue venue, Map<String, dynamic> headers) async {
+    final response = await client.post(Urls.getTimeSlotsForId(venue.id), headers: headers);
+    print(response.body);
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode ~/ 100 == 4) {

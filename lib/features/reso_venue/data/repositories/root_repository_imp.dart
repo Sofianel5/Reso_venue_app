@@ -147,7 +147,8 @@ class RootRepositoryImpl implements RootRepository {
   }
 
   @override
-  Future<Either<Failure, Map<String, List<TimeSlot>>>> getTimeSlots(Venue venue) async {
+  Future<Either<Failure, Map<String, List<TimeSlot>>>> getTimeSlots(
+      Venue venue) async {
     if (await networkInfo.isConnected) {
       try {
         final String authToken = await localDataSource.getAuthToken();
@@ -176,13 +177,23 @@ class RootRepositoryImpl implements RootRepository {
 
   @override
   Future<Either<Failure, bool>> addTimeSlot(
-      {DateTime start, DateTime stop, int numAttendees, String type, Venue venue}) async {
-        if (await networkInfo.isConnected) {
+      {DateTime start,
+      DateTime stop,
+      int numAttendees,
+      String type,
+      Venue venue}) async {
+    if (await networkInfo.isConnected) {
       try {
         final String authToken = await localDataSource.getAuthToken();
         Map<String, String> header = Map<String, String>.from(
             <String, String>{"Authorization": "Token " + authToken.toString()});
-        bool res = await remoteDataSource.addTimeSlot(start: start, stop: stop, numAttendees:  numAttendees, type: type, venue: venue, headers: header);
+        bool res = await remoteDataSource.addTimeSlot(
+            start: start,
+            stop: stop,
+            numAttendees: numAttendees,
+            type: type,
+            venue: venue,
+            headers: header);
         return Right(res);
       } on AuthenticationException {
         return Left(
@@ -210,6 +221,37 @@ class RootRepositoryImpl implements RootRepository {
         Map<String, String> header = Map<String, String>.from(
             <String, String>{"Authorization": "Token " + authToken.toString()});
         final res = await remoteDataSource.scan(userId, venue, header);
+        return Right(res);
+      } on LockedUserException {
+        return Left(LockedFailure());
+      } on UserNotRegistered {
+        return Left(NotRegisteredFailure());
+      } on AuthenticationException {
+        return Left(
+          AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE),
+        );
+      } on CacheException {
+        return Left(
+            AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE));
+      } catch (e) {
+        print(e);
+        return Left(UnknownFailure());
+      }
+    } else {
+      return Left(ConnectionFailure(message: Messages.NO_INTERNET));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteTimeSlot(
+      {Venue venue, TimeSlot timeslot}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final String authToken = await localDataSource.getAuthToken();
+        Map<String, String> header = Map<String, String>.from(<String, String>{
+          "Authorization": "Token " + authToken.toString(),
+        });
+        final res = await remoteDataSource.deleteTimeSlot(timeslot, venue, header);
         return Right(res);
       } on LockedUserException {
         return Left(LockedFailure());

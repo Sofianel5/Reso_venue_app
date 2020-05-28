@@ -12,15 +12,19 @@ class TimeSlotCard extends StatelessWidget {
   Widget build(BuildContext context) {
     RootBloc bloc = BlocProvider.of<RootBloc>(context);
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(
-          //border: Border.all(color: Colors.black, width: 1),
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 10, offset: Offset.fromDirection(-0.2))]
-        ),
+            //border: Border.all(color: Colors.black, width: 1),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10,
+                  spreadRadius: 10,
+                  offset: Offset.fromDirection(-0.2))
+            ]),
         padding: EdgeInsets.all(0),
         height: 125,
         child: Row(
@@ -31,11 +35,11 @@ class TimeSlotCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AttendanceGraph(
-                    size: Size(100.0, 100.0),
-                    total: timeslot.maxAttendees,
-                    taken: timeslot.numAttendees,
-                    type: timeslot.type,
-                    )
+                  size: Size(100.0, 100.0),
+                  total: timeslot.maxAttendees,
+                  taken: timeslot.numAttendees,
+                  type: timeslot.type,
+                )
               ],
             ),
             Column(
@@ -48,18 +52,31 @@ class TimeSlotCard extends StatelessWidget {
                   textAlign: TextAlign.start,
                 ),
                 Text(
-                  DateFormat("jm").format(timeslot.start) + " to " + DateFormat("jm").format(timeslot.stop),
+                  DateFormat("jm").format(timeslot.start) +
+                      " to " +
+                      DateFormat("jm").format(timeslot.stop),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.start,
                 ),
                 Text(
-                  NumberFormat("###").format(100*(timeslot.numAttendees / timeslot.maxAttendees)) + "% booked.",
+                  NumberFormat("###").format(100 *
+                          (timeslot.numAttendees / timeslot.maxAttendees)) +
+                      "% booked.",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.start,
                 ),
               ],
+            ),
+            IconButton(
+              icon: Icon(Icons.delete),
+              color: Colors.red,
+              onPressed: () {
+                BlocProvider.of<TimeSlotsBloc>(context).add(
+                  TimeSlotDeleteRequest(timeslot),
+                );
+              },
             ),
           ],
         ),

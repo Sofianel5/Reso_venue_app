@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Reso_venue/features/reso_venue/domain/usecases/add_timeslot.dart';
+import 'package:Reso_venue/features/reso_venue/domain/usecases/delete_timeslot.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/get_cached_user.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
@@ -46,6 +47,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   final GetTimeSlots getTimeSlots;
   final GetCachedUser getCachedUser;
   final Scan scan;
+  final DeleteTimeSlot delete;
   final AddTimeSlot addTimeSlot;
   User user;
   RootBloc({
@@ -55,6 +57,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     @required this.logout,
     @required this.getTimeSlots,
     @required this.scan,
+    @required this.delete,
     @required this.addTimeSlot
   })  : this.loginBloc = LoginBlocRouter(login)
    {

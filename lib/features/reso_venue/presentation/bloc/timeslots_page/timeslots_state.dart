@@ -32,4 +32,26 @@ class NoCurrentTimeSlots extends TimeSlotsCurrentState {
 
 class NoPreviousTimeSlots extends TimeSlotsHistoryState {
   NoPreviousTimeSlots(User user, List<TimeSlot> timeSlots) : super(user, timeSlots);
+} 
+
+class DeleteDialogueState extends TimeSlotsCurrentState {
+  final TimeSlot timeslot;
+  DeleteDialogueState(User user, List<TimeSlot> timeSlots, this.timeslot) : super(user, timeSlots);
+}
+
+class DeleteConfirmState extends DeleteDialogueState {
+  DeleteConfirmState(User user, List<TimeSlot> timeSlots, TimeSlot timeslot) : super(user, timeSlots, timeslot);
+}
+
+class DeleteLoading extends DeleteDialogueState {
+  DeleteLoading(User user, List<TimeSlot> timeSlots, TimeSlot timeslot) : super(user, timeSlots, timeslot);
+}
+
+class DeleteFailed extends DeleteDialogueState {
+  String message;
+  DeleteFailed(User user, List<TimeSlot> timeSlots, this.message, TimeSlot timeslot) : super(user, timeSlots, timeslot);
+}
+
+class DeleteSucceeded extends DeleteDialogueState {
+  DeleteSucceeded(User user, List<TimeSlot> timeSlots, TimeSlot timeslot) : super(user, timeSlots, timeslot);
 }
