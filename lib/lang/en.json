@@ -1,7 +1,7 @@
 {
     "email": "Email address",
     "password": "Password",
-    "submit": "Send",
+    "submit": "Submit",
     "sign-up": "Sign up",
     "forgot-password": "Did you forget your password",
     "welcome": "Welcome to Reso",
@@ -27,5 +27,6 @@
     "EMPTY_SEARCH_Q": "Empty search query",
     "NO_SCAN": "without scan",
     "CANNOT_REGISTER": "You can not register",
-    "NEEDS_UPDATE": "you need updating"
+    "NEEDS_UPDATE": "you need updating",
+    "num-attendees": "Attendees"
 }

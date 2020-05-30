@@ -172,6 +172,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       "type": type,
     });
     final response = await client.post(Urls.addTimeSlotUrl(venue.id), headers: headers, body: data);
+    print(response.body);
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode ~/ 100 == 4) {

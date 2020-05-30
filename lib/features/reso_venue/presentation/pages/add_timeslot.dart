@@ -27,6 +27,16 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
         if (state is AddTimeSlotFailure) {
           Scaffold.of(context)
               .showSnackBar(SnackBar(content: Text(state.message)));
+        } else if (state is AddTimeSlotSuccess) {
+          setState(() {
+            start = null;
+            stop = null;
+            _numAttendees.value = null;
+            type = null;
+          });
+          //! Localize
+          Scaffold.of(context)
+              .showSnackBar(SnackBar(content: Text("Success")));
         }
       },
       bloc: BlocProvider.of<AddTimeSlotBloc>(context),
@@ -40,17 +50,26 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
               children: [
                 buildTopPadding(state),
                 SizedBox(height: 20.0),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: TextField(
-                    //! Localize
-                    decoration: InputDecoration(labelText: "Num attendees"),
-                    controller: _numAttendees,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      WhitelistingTextInputFormatter.digitsOnly
-                    ],
-                  ),
+                Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Text(Localizer.of(context).get("num-attendees"),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: TextField(
+                        //! Localize
+                        decoration: InputDecoration(labelText: "Num attendees"),
+                        controller: _numAttendees,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -131,7 +150,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500)),
                     DropdownButton(
-                      iconDisabledColor: Colors.white,
+                      iconEnabledColor: Colors.white,
                       value: type,
                       iconSize: 24,
                       elevation: 16,
@@ -144,7 +163,9 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                         );
                       }).toList(),
                       onChanged: (value) {
-                        type = value;
+                        setState(() {
+                          type = value;
+                        });
                       },
                       icon: Icon(Icons.arrow_downward),
                     ),
@@ -177,27 +198,28 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
           );
         },
         child: AnimatedContainer(
-            duration: Duration(seconds: 1),
-            curve: Curves.fastOutSlowIn,
-            decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.circular(15)),
-            width: MediaQuery.of(context).size.width / 3,
-            height: MediaQuery.of(context).size.height / 10,
-            child: Center(
-              child: bloc.state is AddTimeSlotLoading
-                  ? CircularProgressIndicator(
-                      backgroundColor: Colors.white,
-                    )
-                  : Text(
-                      Localizer.of(context).get("submit") ?? "Submit",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+          duration: Duration(seconds: 1),
+          curve: Curves.fastOutSlowIn,
+          decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              borderRadius: BorderRadius.circular(15)),
+          width: MediaQuery.of(context).size.width / 3,
+          height: MediaQuery.of(context).size.height / 10,
+          child: Center(
+            child: bloc.state is AddTimeSlotLoading
+                ? CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                  )
+                : Text(
+                    Localizer.of(context).get("submit") ?? "Submit",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
-            )),
+                  ),
+          ),
+        ),
       ),
     );
   }
