@@ -30,7 +30,7 @@ class _ResoVenueState extends State<ResoVenue> {
           primaryColor: Color(0xFF1b4774),
           accentColor: Color(0xFF03016c),
           scaffoldBackgroundColor: Color(0xFF00c2cc),
-          canvasColor: Color(0xFF5104f8),
+          //canvasColor: Color(0xFF5104f8),
           bottomAppBarColor: Color(0xFFF3F5F7),
         ),
         //home: RootPage(),
