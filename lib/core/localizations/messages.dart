@@ -26,4 +26,5 @@ class Messages {
   static const String NOT_REGISTERED = "NOT_REGISTERED";
   static const String NOT_USER_ID = "NOT_USER_ID";
   static const String INVALID_ORDER = "INVALID_ORDER";
+  static const String NULL_MESSAGE_FIELD = "NULL_MESSAGE_FIELD";
 }

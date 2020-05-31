@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/add_timeslot.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/delete_timeslot.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/get_cached_user.dart';
+import 'package:Reso_venue/features/reso_venue/domain/usecases/get_help.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -31,6 +32,9 @@ part 'home_page_state.dart';
 part 'login_page_bloc.dart';
 part 'login_page_event.dart';
 part 'login_page_state.dart';
+part 'help_page/help_bloc.dart';
+part 'help_page/help_event.dart';
+part 'help_page/help_state.dart';
 part 'root_event.dart';
 part 'root_state.dart';
 part 'scan_page/scan_bloc.dart';
@@ -49,6 +53,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   final Scan scan;
   final DeleteTimeSlot delete;
   final AddTimeSlot addTimeSlot;
+  final GetHelp getHelp;
   User user;
   RootBloc({
     @required this.getExistingUser,
@@ -58,7 +63,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     @required this.getTimeSlots,
     @required this.scan,
     @required this.delete,
-    @required this.addTimeSlot
+    @required this.addTimeSlot,
+    @required this.getHelp,
   })  : this.loginBloc = LoginBlocRouter(login)
    {
     this.add(GetExistingUserEvent());

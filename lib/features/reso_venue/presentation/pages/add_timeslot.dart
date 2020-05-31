@@ -128,8 +128,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                             final date = await showDatePicker(
                                 context: context,
                                 firstDate: DateTime.now(),
-                                initialDate: currentValue ??
-                                    DateTime.now().add(Duration(days: 7)),
+                                initialDate: currentValue ?? DateTime.now(),
                                 lastDate: DateTime(2100));
                             if (date != null) {
                               final time = await showTimePicker(
@@ -138,13 +137,16 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                                     currentValue ?? DateTime.now()),
                               );
                               final res = DateTimeField.combine(date, time);
+                              print(res);
                               stop = res;
                               return res;
                             } else {
                               return currentValue;
                             }
                           },
-                          onChanged: (date) {},
+                          onChanged: (date) {
+  
+                          },
                         ),
                       ),
                     ],

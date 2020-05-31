@@ -24,6 +24,7 @@ class _ResoVenueState extends State<ResoVenue> {
     return BlocProvider(
       create: (context) => ic.sl<RootBloc>(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Reso',
         home: RootPage(),
         theme: ThemeData(
@@ -58,11 +59,10 @@ class _ResoVenueState extends State<ResoVenue> {
             if (supportedLocale.languageCode == locale.languageCode) {
               return supportedLocale;
             }
-          } return supportedLocales.first;
+          }
+          return supportedLocales.first;
         },
-        
       ),
     );
   }
 }
-

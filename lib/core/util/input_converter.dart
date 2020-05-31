@@ -59,5 +59,10 @@ class InputConverter {
       return Left(InvalidInputFailure(message: Messages.INVALID_ORDER));
     }
   }
+  Either<Failure, bool> validateHelpForm(String input) {
+    if (isNull(input)) {
+      return Left(InvalidInputFailure(message: Messages.NULL_MESSAGE_FIELD));
+    } return Right(true);
+  }
   
 }

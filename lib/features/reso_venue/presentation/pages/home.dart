@@ -1,4 +1,3 @@
-import 'package:Reso_venue/core/localizations/messages.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/root_bloc.dart';
 import 'account.dart';
-import 'add_timeslot.dart';
-import 'error.dart';
+import 'help.dart';
 import 'scan.dart';
 import 'timeslots.dart';
 
@@ -21,18 +19,26 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _mainPages = [
     BlocProvider(
       create: (context) => TimeSlotsBloc(
-        getTimeSlots: BlocProvider.of<RootBloc>(context).getTimeSlots,
-        user: BlocProvider.of<RootBloc>(context).user,
-        delete: BlocProvider.of<RootBloc>(context).delete
-      ),
+          getTimeSlots: BlocProvider.of<RootBloc>(context).getTimeSlots,
+          user: BlocProvider.of<RootBloc>(context).user,
+          delete: BlocProvider.of<RootBloc>(context).delete),
       child: TimeSlotsScreen(),
     ),
+    /*
     BlocProvider(
       create: (context) => AddTimeSlotBloc(
         addTimeSlot: BlocProvider.of<RootBloc>(context).addTimeSlot,
         user: BlocProvider.of<RootBloc>(context).user,
       ),
       child: AddTimeSlotScreen(),
+    ),
+    */
+    BlocProvider(
+      create: (context) => HelpBloc(
+        getHelp: BlocProvider.of<RootBloc>(context).getHelp,
+        user: BlocProvider.of<RootBloc>(context).user,
+      ),
+      child: HelpScreen(),
     ),
     BlocProvider(
       create: (context) => ScanBloc(
@@ -82,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                         : Colors.black,
                   ),
                   Icon(
-                    Icons.add,
+                    Icons.help,
                     size: 30,
                     color: _selectedPage == 1
                         ? Theme.of(context).scaffoldBackgroundColor

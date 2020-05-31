@@ -13,7 +13,10 @@ class Urls {
     return getBaseURL() + "api/venues/" + id.toString() + "/timeslots/";
   }
   static String deleteTimeSlot(int venueId, int tsid) {
-      return getBaseURL() + "api/myadmin/venues/" + venueId.toString() + "/timeslots/" + tsid.toString() + "/";
+    return getBaseURL() + "api/myadmin/venues/" + venueId.toString() + "/timeslots/" + tsid.toString() + "/";
   }
   static String PASSWORD_RESET_URL = getBaseURL() + "users/password/reset/";
+  static String getHelpUrl(int venueId) {
+    return getBaseURL() + "api/myadmin/" + venueId.toString() + "/help/";
+  }
 }

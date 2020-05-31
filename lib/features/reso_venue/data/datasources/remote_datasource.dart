@@ -20,6 +20,7 @@ abstract class RemoteDataSource {
   Future<bool> scan(String userId, Venue venue, Map<String, dynamic> headers);
   Future<bool> addTimeSlot({DateTime start, Venue venue, DateTime stop, int numAttendees, String type, Map<String, dynamic> headers});
   Future<bool> deleteTimeSlot(TimeSlot timeslot, Venue venue, Map<String, dynamic> headers);
+  Future<bool> getHelp(String message, Venue venue, Map<String, dynamic> headers);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -188,6 +189,22 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<bool> deleteTimeSlot(TimeSlot timeslot, Venue venue, Map<String, dynamic> headers) async {
     final response = await client.post(Urls.deleteTimeSlot(venue.id, timeslot.id), headers: headers);
+    print(response.body);
+    if (response.statusCode == 200) {
+      return true;
+    } else if (response.statusCode ~/ 100 == 4) {
+      throw AuthenticationException();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<bool> getHelp(String message, Venue venue, Map<String, dynamic> headers) async {
+    Map<String, String> body = Map<String, String>.from(<String, String>{
+      "content": message
+    });
+    final response = await client.post(Urls.getHelpUrl(venue.id), body: body, headers: headers);
     print(response.body);
     if (response.statusCode == 200) {
       return true;
