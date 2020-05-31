@@ -1,12 +1,12 @@
-import 'package:Reso_venue/core/localizations/localizations.dart';
-
-import '../../domain/entities/timeslot.dart';
-import '../bloc/root_bloc.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../core/localizations/localizations.dart';
+import '../../domain/entities/timeslot.dart';
+import '../bloc/root_bloc.dart';
 
 class AddTimeSlotScreen extends StatefulWidget {
   @override
@@ -31,12 +31,11 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
           setState(() {
             start = null;
             stop = null;
-            _numAttendees.value = null;
+            _numAttendees = TextEditingController();
             type = null;
           });
           //! Localize
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text("Success")));
+          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Success")));
         }
       },
       bloc: BlocProvider.of<AddTimeSlotBloc>(context),
@@ -53,7 +52,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                   buildTopPadding(state),
                   SizedBox(height: 20.0),
                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       Text(Localizer.of(context).get("num-attendees"),
@@ -63,7 +62,8 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                         width: MediaQuery.of(context).size.width / 2,
                         child: TextField(
                           //! Localize
-                          decoration: InputDecoration(labelText: "Num attendees"),
+                          decoration:
+                              InputDecoration(labelText: "Num attendees"),
                           controller: _numAttendees,
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
@@ -89,8 +89,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                             final date = await showDatePicker(
                                 context: context,
                                 firstDate: DateTime.now(),
-                                initialDate: currentValue ??
-                                    DateTime.now().add(Duration(days: 7)),
+                                initialDate: currentValue ?? DateTime.now(),
                                 lastDate: DateTime(2100));
                             if (date != null) {
                               final time = await showTimePicker(
@@ -98,12 +97,17 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                                 initialTime: TimeOfDay.fromDateTime(
                                     currentValue ?? DateTime.now()),
                               );
-                              return DateTimeField.combine(date, time);
+                              final res = DateTimeField.combine(date, time);
+                              print(res);
+                              start = res;
+                              return res;
                             } else {
                               return currentValue;
                             }
                           },
-                          onChanged: (date) => start = date,
+                          onChanged: (date) {
+  
+                          },
                         ),
                       ),
                     ],
@@ -133,12 +137,14 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                                 initialTime: TimeOfDay.fromDateTime(
                                     currentValue ?? DateTime.now()),
                               );
-                              return DateTimeField.combine(date, time);
+                              final res = DateTimeField.combine(date, time);
+                              stop = res;
+                              return res;
                             } else {
                               return currentValue;
                             }
                           },
-                          onChanged: (date) => stop = date,
+                          onChanged: (date) {},
                         ),
                       ),
                     ],

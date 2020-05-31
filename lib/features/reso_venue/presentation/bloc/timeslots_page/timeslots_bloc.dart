@@ -49,6 +49,8 @@ class TimeSlotsBloc extends Bloc<TimeSlotEvent, TimeSlotsState> {
       yield* result.fold((failure) async* {
         yield DeleteFailed(user, timeSlots['current'], failure.message, event.timeslot);
       }, (res) async* {
+        timeSlots['current'].remove(event.timeslot);
+        timeSlots['history'].remove(event.timeslot);
         yield DeleteSucceeded(user, timeSlots['current'], event.timeslot);
       });
     }

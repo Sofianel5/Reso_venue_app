@@ -122,6 +122,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   Future<Map<String, List<TimeSlot>>> getTimeSlots(int venueId, Map<String, dynamic> headers) async {
     final response = await http.get(Urls.getTimeSlotsForId(venueId) , headers: headers);
     if (response.statusCode == 200) {
+      print(response.body);
       final responseJson = json.decode(response.body);
       List<TimeSlot> history = [];
       for (var ts in responseJson["history"]) {
@@ -165,6 +166,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<bool> addTimeSlot({DateTime start, DateTime stop, int numAttendees, String type, Venue venue, Map<String, dynamic> headers}) async {
+    print(start);
+    print(start.toIso8601String());
     Map<String, String> data = Map<String, String>.from(<String, String>{
       "start": start.toIso8601String(),
       "stop": stop.toIso8601String(),
@@ -184,7 +187,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<bool> deleteTimeSlot(TimeSlot timeslot, Venue venue, Map<String, dynamic> headers) async {
-    final response = await client.post(Urls.getTimeSlotsForId(venue.id), headers: headers);
+    final response = await client.post(Urls.deleteTimeSlot(venue.id, timeslot.id), headers: headers);
     print(response.body);
     if (response.statusCode == 200) {
       return true;
