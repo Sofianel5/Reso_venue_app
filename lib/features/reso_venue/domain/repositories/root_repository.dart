@@ -15,4 +15,5 @@ abstract class RootRepository {
   Future<Either<Failure, bool>> scan(String userId, Venue venue);
   Future<Either<Failure, bool>> deleteTimeSlot({Venue venue, TimeSlot timeslot});
   Future<Either<Failure, bool>> getHelp(String message, Venue venue);
+  Future<Either<Failure, TimeSlot>> changeAttendees(bool add, Venue venue, TimeSlot timeslot);
 }

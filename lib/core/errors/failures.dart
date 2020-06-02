@@ -70,3 +70,7 @@ class LockedFailure extends Failure {
 class NotRegisteredFailure extends Failure {
   NotRegisteredFailure() : super(message: Messages.NOT_REGISTERED);
 }
+
+class CannotChangeFailure extends Failure {
+  CannotChangeFailure() : super(message: Messages.CANNOT_CHANGE);
+}

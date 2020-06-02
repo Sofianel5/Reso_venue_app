@@ -20,8 +20,7 @@ class _HomePageState extends State<HomePage> {
     BlocProvider(
       create: (context) => TimeSlotsBloc(
           getTimeSlots: BlocProvider.of<RootBloc>(context).getTimeSlots,
-          user: BlocProvider.of<RootBloc>(context).user,
-          delete: BlocProvider.of<RootBloc>(context).delete),
+          user: BlocProvider.of<RootBloc>(context).user),
       child: TimeSlotsScreen(),
     ),
     /*

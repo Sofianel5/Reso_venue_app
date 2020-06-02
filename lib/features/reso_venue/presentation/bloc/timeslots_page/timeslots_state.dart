@@ -42,16 +42,3 @@ class DeleteDialogueState extends TimeSlotsCurrentState {
 class DeleteConfirmState extends DeleteDialogueState {
   DeleteConfirmState(User user, List<TimeSlot> timeSlots, TimeSlot timeslot) : super(user, timeSlots, timeslot);
 }
-
-class DeleteLoading extends DeleteDialogueState {
-  DeleteLoading(User user, List<TimeSlot> timeSlots, TimeSlot timeslot) : super(user, timeSlots, timeslot);
-}
-
-class DeleteFailed extends DeleteDialogueState {
-  String message;
-  DeleteFailed(User user, List<TimeSlot> timeSlots, this.message, TimeSlot timeslot) : super(user, timeSlots, timeslot);
-}
-
-class DeleteSucceeded extends DeleteDialogueState {
-  DeleteSucceeded(User user, List<TimeSlot> timeSlots, TimeSlot timeslot) : super(user, timeSlots, timeslot);
-}

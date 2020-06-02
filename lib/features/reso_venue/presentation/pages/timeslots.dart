@@ -31,81 +31,6 @@ class _TimeSlotsScreenState extends State<TimeSlotsScreen> {
     );
   }
 
-  Widget _buildDeleteTitle(DeleteDialogueState state) {
-    if (state is DeleteConfirmState || state is DeleteLoading) {
-      //! Localize
-      return Text("Delete time slot?");
-    } else if (state is DeleteFailed) {
-      //! Localize
-      return Text("Failed to delete");
-    } else if (state is DeleteSucceeded) {
-      return Text("Deleted successfully");
-    }
-  }
-
-  Widget _buildDeleteContents(DeleteDialogueState state) {
-    if (state is DeleteConfirmState || state is DeleteLoading) {
-      //! Localize
-      return Text("This action cannot be reverted");
-    } else if (state is DeleteFailed) {
-      //! Localize
-      return Text(state.message);
-    } else if (state is DeleteSucceeded) {
-      return AspectRatio(
-        aspectRatio: 1,
-        child: FlareActor(
-          "assets/success.flr",
-          animation: "Untitled",
-          fit: BoxFit.contain,
-          alignment: Alignment.center,
-        ),
-      );
-    }
-  }
-
-  List<Widget> _buildDeleteActions(DeleteDialogueState state) {
-    if (state is DeleteConfirmState) {
-      //! Localize
-      return <Widget>[
-        new FlatButton(
-          child: new Text("Cancel"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        new FlatButton(
-          child: new Text(
-            //! LOCALIZE
-            "Confirm",
-            style: TextStyle(color: Colors.red),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-            BlocProvider.of<TimeSlotsBloc>(context).add(TimeSlotDeleteConfirm(state.timeslot));
-          },
-        ),
-      ];
-    } else if (state is DeleteFailed) {
-      return <Widget>[
-        new FlatButton(
-          child: new Text("Cancel"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ];
-    } else if (state is DeleteSucceeded) {
-      return <Widget>[
-        new FlatButton(
-          child: new Text("Done"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ];
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final RootBloc rootBloc = BlocProvider.of<RootBloc>(context);
@@ -116,20 +41,7 @@ class _TimeSlotsScreenState extends State<TimeSlotsScreen> {
           //! Localize
           Scaffold.of(context)
               .showSnackBar(SnackBar(content: Text(state.message)));
-        } else if (state is DeleteDialogueState) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              // return object of type Dialog
-              return AlertDialog(
-                //! LOCALIZE
-                title: _buildDeleteTitle(state),
-                content: _buildDeleteContents(state),
-                actions: _buildDeleteActions(state),
-              );
-            },
-          );
-        }
+        } 
       },
       child: BlocBuilder(
         bloc: BlocProvider.of<TimeSlotsBloc>(context),

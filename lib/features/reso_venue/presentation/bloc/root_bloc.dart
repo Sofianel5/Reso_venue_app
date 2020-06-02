@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Reso_venue/features/reso_venue/domain/usecases/add_timeslot.dart';
+import 'package:Reso_venue/features/reso_venue/domain/usecases/change_attendees.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/delete_timeslot.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/get_cached_user.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/get_help.dart';
@@ -26,6 +27,9 @@ part 'account_page/account_state.dart';
 part 'add_timeslot_page/add_timeslot_bloc.dart';
 part 'add_timeslot_page/add_timeslot_event.dart';
 part 'add_timeslot_page/add_timeslot_state.dart';
+part 'timeslot_manage/timeslot_manage_bloc.dart';
+part 'timeslot_manage/timeslot_manage_event.dart';
+part 'timeslot_manage/timeslot_manage_state.dart';
 part 'home_page_bloc.dart';
 part 'home_page_event.dart';
 part 'home_page_state.dart';
@@ -54,6 +58,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   final DeleteTimeSlot delete;
   final AddTimeSlot addTimeSlot;
   final GetHelp getHelp;
+  final ChangeAttendees changeAttendees;
   User user;
   RootBloc({
     @required this.getExistingUser,
@@ -65,6 +70,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     @required this.delete,
     @required this.addTimeSlot,
     @required this.getHelp,
+    @required this.changeAttendees,
   })  : this.loginBloc = LoginBlocRouter(login)
    {
     this.add(GetExistingUserEvent());
@@ -107,6 +113,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       yield UnauthenticatedState();
     } else if (event is PopEvent) {
       ExtendedNavigator.rootNavigator.pop();
-    } 
+    } else if (event is PushManage) {
+      
+    }
   }
 }

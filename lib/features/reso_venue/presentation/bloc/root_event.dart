@@ -36,3 +36,10 @@ class PopEvent extends RootEvent {
   @override
   List<Object> get props => [];
 }
+
+class PushManage extends RootEvent {
+  final TimeSlot timeSlot;
+  PushManage(this.timeSlot);
+  @override
+  List<Object> get props => [timeSlot];
+}
