@@ -31,7 +31,7 @@ abstract class RemoteDataSource {
   Future<bool> getHelp(
       String message, Venue venue, Map<String, dynamic> headers);
   Future<TimeSlot> changeAttendees(
-      bool add, Venue venue, TimeSlot timeslot, Map<String, dynamic> headers);
+      bool add, Venue venue, TimeSlot timeslot, Map<String, String> headers);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -241,14 +241,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<TimeSlot> changeAttendees(bool add, Venue venue, TimeSlot timeslot,
-      Map<String, dynamic> headers) async {
-    Map<String, bool> body = Map<String, bool>.from(
-      <String, bool>{"add": add},
+      Map<String, String> headers) async {
+    Map<String, String> body = Map<String, String>.from(
+      <String, String>{"add": add.toString()},
     );
     final response = await client.post(
-        Urls.getChangeTimeslotUrl(venue.id, timeslot.id),
-        body: body,
-        headers: headers);
+      Urls.getChangeTimeslotUrl(venue.id, timeslot.id),
+      body: body,
+      headers: headers,
+    );
     print(response.body);
     if (response.statusCode == 200) {
       return TimeSlotModel.fromJson(json.decode(response.body));

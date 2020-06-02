@@ -30,7 +30,7 @@ class _TimeSlotsScreenState extends State<TimeSlotsScreen> {
       ),
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final RootBloc rootBloc = BlocProvider.of<RootBloc>(context);

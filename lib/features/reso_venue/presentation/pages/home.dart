@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _key = GlobalKey<ScaffoldState>();
   int _selectedPage = 0;
   final List<Widget> _mainPages = [
     BlocProvider(
@@ -63,6 +64,7 @@ class _HomePageState extends State<HomePage> {
           bloc: BlocProvider.of<HomePageBloc>(context),
           builder: (context, state) {
             return Scaffold(
+              key: _key,
               resizeToAvoidBottomInset: false,
               backgroundColor: Color(0xFFF3F5F7),
               body: _mainPages[_selectedPage],

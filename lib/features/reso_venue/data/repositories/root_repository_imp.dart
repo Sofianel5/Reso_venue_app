@@ -322,8 +322,9 @@ class RootRepositoryImpl implements RootRepository {
       } on CacheException {
         return Left(
             AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE));
-      } catch (e) {
+      } catch (e, stacktrace) {
         print(e);
+        print(stacktrace);
         return Left(UnknownFailure());
       }
     } else {

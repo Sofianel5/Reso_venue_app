@@ -35,6 +35,7 @@ class ManageScreenChild extends StatefulWidget {
 
 class _ManageScreenChildState extends State<ManageScreenChild> {
   bool alreadyPopped = false;
+  final _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,14 +57,15 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
             },
           );
         } else if (state is ManageSnackBarState) {
-          Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
+          _key.currentState
+          .showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
       bloc: bloc,
       child: BlocBuilder(
         bloc: bloc,
         builder: (context, state) => Scaffold(
+          key: _key,
           backgroundColor: Color(0xFFF3F5F7),
           body: SafeArea(
             bottom: false,
@@ -94,7 +96,7 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
                         ),
                       ),
                       Text("Manage time slot"),
-                      Spacer(),
+                      Container(width: 30,),
                     ],
                   ),
                 ),
@@ -148,6 +150,7 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
                             ],
                           ),
                         ),
+                        Spacer(),
                         _buildSubtractButton(state, bloc, context),
                         SizedBox(height: 20,),
                         _buildAddButton(state, bloc, context),
