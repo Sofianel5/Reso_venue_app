@@ -70,11 +70,11 @@ class TimeSlotCard extends StatelessWidget {
               ],
             ),
             IconButton(
-              icon: Icon(Icons.delete),
-              color: Colors.red,
+              icon: Icon(Icons.settings),
+              color: Colors.grey,
               onPressed: () {
-                BlocProvider.of<TimeSlotsBloc>(context).add(
-                  TimeSlotDeleteRequest(timeslot),
+                BlocProvider.of<RootBloc>(context).add(
+                  PushManage(timeslot),
                 );
               },
             ),

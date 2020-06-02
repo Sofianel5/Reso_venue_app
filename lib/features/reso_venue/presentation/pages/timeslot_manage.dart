@@ -94,7 +94,7 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
                         ),
                       ),
                       Text("Manage time slot"),
-                      Container(),
+                      Spacer(),
                     ],
                   ),
                 ),

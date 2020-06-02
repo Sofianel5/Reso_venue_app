@@ -34,11 +34,3 @@ class NoPreviousTimeSlots extends TimeSlotsHistoryState {
   NoPreviousTimeSlots(User user, List<TimeSlot> timeSlots) : super(user, timeSlots);
 } 
 
-class DeleteDialogueState extends TimeSlotsCurrentState {
-  final TimeSlot timeslot;
-  DeleteDialogueState(User user, List<TimeSlot> timeSlots, this.timeslot) : super(user, timeSlots);
-}
-
-class DeleteConfirmState extends DeleteDialogueState {
-  DeleteConfirmState(User user, List<TimeSlot> timeSlots, TimeSlot timeslot) : super(user, timeSlots, timeslot);
-}

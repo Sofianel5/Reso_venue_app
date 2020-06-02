@@ -16,12 +16,22 @@ import '../models/venue_model.dart';
 abstract class RemoteDataSource {
   Future<String> login({String email, String password});
   Future<UserModel> getUser(Map<String, dynamic> headers);
-  Future<Map<String, List<TimeSlot>>> getTimeSlots(int venueId, Map<String, dynamic> headers);
+  Future<Map<String, List<TimeSlot>>> getTimeSlots(
+      int venueId, Map<String, dynamic> headers);
   Future<bool> scan(String userId, Venue venue, Map<String, dynamic> headers);
-  Future<bool> addTimeSlot({DateTime start, Venue venue, DateTime stop, int numAttendees, String type, Map<String, dynamic> headers});
-  Future<bool> deleteTimeSlot(TimeSlot timeslot, Venue venue, Map<String, dynamic> headers);
-  Future<bool> getHelp(String message, Venue venue, Map<String, dynamic> headers);
-  Future<TimeSlot> changeAttendees(bool add, Venue venue, TimeSlot timeslot, Map<String, dynamic> headers);
+  Future<bool> addTimeSlot(
+      {DateTime start,
+      Venue venue,
+      DateTime stop,
+      int numAttendees,
+      String type,
+      Map<String, dynamic> headers});
+  Future<bool> deleteTimeSlot(
+      TimeSlot timeslot, Venue venue, Map<String, dynamic> headers);
+  Future<bool> getHelp(
+      String message, Venue venue, Map<String, dynamic> headers);
+  Future<TimeSlot> changeAttendees(
+      bool add, Venue venue, TimeSlot timeslot, Map<String, dynamic> headers);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -91,7 +101,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       if (response.statusCode == 200) {
         jsonData = json.decode(response.body);
         return jsonData["auth_token"];
-      } else if (response.statusCode == 401 ) { 
+      } else if (response.statusCode == 401) {
         throw NotAdminException();
       } else if (response.statusCode == 406) {
         throw NeedsUpdateException();
@@ -112,17 +122,18 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       final Map<String, dynamic> jsonData = Map<String, dynamic>.from(
           await _getJson(<String, String>{}, Urls.USER_URL,
               headers: Map<String, String>.from(headers)));
-        print(headers);
+      print(headers);
       return UserModel.fromJson(jsonData);
     } catch (e) {
       throw e;
     }
   }
 
-
   @override
-  Future<Map<String, List<TimeSlot>>> getTimeSlots(int venueId, Map<String, dynamic> headers) async {
-    final response = await http.get(Urls.getTimeSlotsForId(venueId) , headers: headers);
+  Future<Map<String, List<TimeSlot>>> getTimeSlots(
+      int venueId, Map<String, dynamic> headers) async {
+    final response =
+        await http.get(Urls.getTimeSlotsForId(venueId), headers: headers);
     if (response.statusCode == 200) {
       print(response.body);
       final responseJson = json.decode(response.body);
@@ -147,11 +158,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<bool> scan(String userId, Venue venue, Map<String, dynamic> headers) async {
+  Future<bool> scan(
+      String userId, Venue venue, Map<String, dynamic> headers) async {
     Map<String, String> data = Map<String, String>.from(<String, String>{
       "to": userId,
     });
-    final response = await client.post(Urls.getScanUrl(venue.id), headers: headers, body: data);
+    final response = await client.post(Urls.getScanUrl(venue.id),
+        headers: headers, body: data);
     print(response.body);
     if (response.statusCode == 200) {
       return true;
@@ -167,7 +180,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<bool> addTimeSlot({DateTime start, DateTime stop, int numAttendees, String type, Venue venue, Map<String, dynamic> headers}) async {
+  Future<bool> addTimeSlot(
+      {DateTime start,
+      DateTime stop,
+      int numAttendees,
+      String type,
+      Venue venue,
+      Map<String, dynamic> headers}) async {
     print(start);
     print(start.toIso8601String());
     Map<String, String> data = Map<String, String>.from(<String, String>{
@@ -176,7 +195,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       "max_attendees": numAttendees.toString(),
       "type": type,
     });
-    final response = await client.post(Urls.addTimeSlotUrl(venue.id), headers: headers, body: data);
+    final response = await client.post(Urls.addTimeSlotUrl(venue.id),
+        headers: headers, body: data);
     print(response.body);
     if (response.statusCode == 200) {
       return true;
@@ -188,8 +208,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<bool> deleteTimeSlot(TimeSlot timeslot, Venue venue, Map<String, dynamic> headers) async {
-    final response = await client.post(Urls.deleteTimeSlot(venue.id, timeslot.id), headers: headers);
+  Future<bool> deleteTimeSlot(
+      TimeSlot timeslot, Venue venue, Map<String, dynamic> headers) async {
+    final response = await client
+        .post(Urls.deleteTimeSlot(venue.id, timeslot.id), headers: headers);
     print(response.body);
     if (response.statusCode == 200) {
       return true;
@@ -201,11 +223,12 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<bool> getHelp(String message, Venue venue, Map<String, dynamic> headers) async {
-    Map<String, String> body = Map<String, String>.from(<String, String>{
-      "content": message
-    });
-    final response = await client.post(Urls.getHelpUrl(venue.id), body: body, headers: headers);
+  Future<bool> getHelp(
+      String message, Venue venue, Map<String, dynamic> headers) async {
+    Map<String, String> body =
+        Map<String, String>.from(<String, String>{"content": message});
+    final response = await client.post(Urls.getHelpUrl(venue.id),
+        body: body, headers: headers);
     print(response.body);
     if (response.statusCode == 200) {
       return true;
@@ -217,11 +240,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<TimeSlot> changeAttendees(bool add, Venue venue, TimeSlot timeslot, Map<String, dynamic> headers) async {
-    Map<String, bool> body = Map<String, bool>.from(<String, bool>{
-      "add": add
-    });
-    final response = await client.post(Urls.getChangeTimeslotUrl(venue.id, timeslot.id), body: body, headers: headers);
+  Future<TimeSlot> changeAttendees(bool add, Venue venue, TimeSlot timeslot,
+      Map<String, dynamic> headers) async {
+    Map<String, bool> body = Map<String, bool>.from(
+      <String, bool>{"add": add},
+    );
+    final response = await client.post(
+        Urls.getChangeTimeslotUrl(venue.id, timeslot.id),
+        body: body,
+        headers: headers);
     print(response.body);
     if (response.statusCode == 200) {
       return TimeSlotModel.fromJson(json.decode(response.body));
@@ -233,5 +260,4 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       throw ServerException();
     }
   }
-
 }

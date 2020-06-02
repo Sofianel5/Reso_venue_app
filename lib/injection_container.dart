@@ -1,3 +1,4 @@
+import 'features/reso_venue/domain/usecases/change_attendees.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -22,9 +23,10 @@ import 'features/reso_venue/presentation/bloc/root_bloc.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
-  sl.registerFactory(() => RootBloc(getHelp: sl(), delete: sl(), addTimeSlot: sl(), getExistingUser: sl(), getCachedUser: sl(), login: sl(), logout: sl(), getTimeSlots: sl(), scan: sl()));
+  sl.registerFactory(() => RootBloc(changeAttendees: sl(), getHelp: sl(), delete: sl(), addTimeSlot: sl(), getExistingUser: sl(), getCachedUser: sl(), login: sl(), logout: sl(), getTimeSlots: sl(), scan: sl()));
 
   // Usecases
+  sl.registerLazySingleton<ChangeAttendees>(() =>ChangeAttendees(sl()));
   sl.registerLazySingleton<GetHelp>(() => GetHelp(sl()));
   sl.registerLazySingleton<DeleteTimeSlot>(() => DeleteTimeSlot(sl()));
   sl.registerLazySingleton<AddTimeSlot>(() => AddTimeSlot(sl()));
