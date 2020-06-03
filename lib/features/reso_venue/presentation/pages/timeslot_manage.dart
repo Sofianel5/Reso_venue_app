@@ -227,7 +227,7 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
             ? Colors.grey
             : Colors.red,
         child: Text(
-          "Register",
+          "Delete",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:Reso_venue/features/reso_venue/domain/usecases/add_timeslot.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/change_attendees.dart';
+import 'package:Reso_venue/features/reso_venue/domain/usecases/clear_attendees.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/delete_timeslot.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/get_cached_user.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/get_help.dart';
+import 'package:Reso_venue/features/reso_venue/domain/usecases/increment.dart';
 import 'package:Reso_venue/routes/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
@@ -31,6 +33,9 @@ part 'add_timeslot_page/add_timeslot_state.dart';
 part 'timeslot_manage/timeslot_manage_bloc.dart';
 part 'timeslot_manage/timeslot_manage_event.dart';
 part 'timeslot_manage/timeslot_manage_state.dart';
+part 'counter_page/counter_page_bloc.dart';
+part 'counter_page/counter_page_event.dart';
+part 'counter_page/counter_page_state.dart';
 part 'home_page_bloc.dart';
 part 'home_page_event.dart';
 part 'home_page_state.dart';
@@ -60,6 +65,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   final AddTimeSlot addTimeSlot;
   final GetHelp getHelp;
   final ChangeAttendees changeAttendees;
+  final ClearAttendees clear;
+  final Increment increment;
   User user;
   RootBloc({
     @required this.getExistingUser,
@@ -72,6 +79,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     @required this.addTimeSlot,
     @required this.getHelp,
     @required this.changeAttendees,
+    @required this.clear,
+    @required this.increment
   })  : this.loginBloc = LoginBlocRouter(login)
    {
     this.add(GetExistingUserEvent());

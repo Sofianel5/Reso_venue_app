@@ -32,6 +32,8 @@ abstract class RemoteDataSource {
       String message, Venue venue, Map<String, dynamic> headers);
   Future<TimeSlot> changeAttendees(
       bool add, Venue venue, TimeSlot timeslot, Map<String, String> headers);
+  Future<int> increment(int count, Venue venue, Map<String, dynamic> headers);
+  Future<bool> clear(Venue venue, Map<String, dynamic> headers);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -58,6 +60,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         response = await client.post(url,
             body: data, headers: headers ?? <String, String>{});
       }
+      print(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response;
       } else if (response.statusCode == 406) {
@@ -251,8 +254,52 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       headers: headers,
     );
     print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return TimeSlotModel.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 406) {
+      throw CannotChangeException();
+    } else if (response.statusCode ~/ 100 == 4) {
+      throw AuthenticationException();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override 
+  Future<int> increment(int count, Venue venue, Map<String, dynamic> headers) async {
+    Map<String, String> body = Map<String, String>.from(
+      <String, String>{"count": count.toString()},
+    );
+    final response = await client.post(
+      Urls.getIncrementUrl(venue.id),
+      body: body,
+      headers: headers,
+    );
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final js = json.decode(response.body);
+      return js["attendees"];
+    } else if (response.statusCode == 406) {
+      throw CannotChangeException();
+    } else if (response.statusCode ~/ 100 == 4) {
+      throw AuthenticationException();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override 
+  Future<bool> clear(Venue venue, Map<String, dynamic> headers) async {
+    final response = await client.post(
+      Urls.getClearUrl(venue.id),
+      headers: headers,
+    );
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
     } else if (response.statusCode == 406) {
       throw CannotChangeException();
     } else if (response.statusCode ~/ 100 == 4) {

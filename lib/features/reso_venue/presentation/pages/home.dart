@@ -8,6 +8,7 @@ import 'account.dart';
 import 'help.dart';
 import 'scan.dart';
 import 'timeslots.dart';
+import 'counter.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -32,13 +33,22 @@ class _HomePageState extends State<HomePage> {
       ),
       child: AddTimeSlotScreen(),
     ),
-    */
+    
     BlocProvider(
       create: (context) => HelpBloc(
         getHelp: BlocProvider.of<RootBloc>(context).getHelp,
         user: BlocProvider.of<RootBloc>(context).user,
       ),
       child: HelpScreen(),
+    ),
+    */
+    BlocProvider(
+      create: (context) => CounterPageBloc(
+        user: BlocProvider.of<RootBloc>(context).user,
+        increment: BlocProvider.of<RootBloc>(context).increment,
+        clear: BlocProvider.of<RootBloc>(context).clear,
+      ),
+      child: CounterPage(),
     ),
     BlocProvider(
       create: (context) => ScanBloc(
@@ -89,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                         : Colors.black,
                   ),
                   Icon(
-                    Icons.help,
+                    Icons.confirmation_number,
                     size: 30,
                     color: _selectedPage == 1
                         ? Theme.of(context).scaffoldBackgroundColor
