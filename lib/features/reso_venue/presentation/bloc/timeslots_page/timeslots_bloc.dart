@@ -3,8 +3,7 @@ part of '../root_bloc.dart';
 class TimeSlotsBloc extends Bloc<TimeSlotEvent, TimeSlotsState> {
   final GetTimeSlots getTimeSlots;
   final User user;
-  final DeleteTimeSlot delete;
-  TimeSlotsBloc({@required this.getTimeSlots,@required this.user, @required this.delete}) {
+  TimeSlotsBloc({@required this.getTimeSlots,@required this.user}) {
     this.add(TimeSlotCreation());
   }
   Map<String, List<TimeSlot>> timeSlots;
@@ -41,18 +40,6 @@ class TimeSlotsBloc extends Bloc<TimeSlotEvent, TimeSlotsState> {
       } else {
         yield TimeSlotsCurrentState(user, timeSlots["current"]);
       }
-    } else if (event is TimeSlotDeleteRequest) {
-      yield DeleteConfirmState(user, timeSlots["current"], event.timeslot);
-    } else if (event is TimeSlotDeleteConfirm) {
-      yield DeleteLoading(user, timeSlots["current"], event.timeslot);
-      final result = await delete(DeleteTimeSlotParams(timeslot: event.timeslot, venue: user.venue));
-      yield* result.fold((failure) async* {
-        yield DeleteFailed(user, timeSlots['current'], failure.message, event.timeslot);
-      }, (res) async* {
-        timeSlots['current'].remove(event.timeslot);
-        timeSlots['history'].remove(event.timeslot);
-        yield DeleteSucceeded(user, timeSlots['current'], event.timeslot);
-      });
     }
   }
   

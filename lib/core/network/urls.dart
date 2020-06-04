@@ -19,4 +19,16 @@ class Urls {
   static String getHelpUrl(int venueId) {
     return getBaseURL() + "api/myadmin/" + venueId.toString() + "/help/";
   }
+  static String getChangeTimeslotUrl(int venueid, int timeslotid) {
+    return getBaseURL() + "api/myadmin/" + venueid.toString() + "/timeslots/" + timeslotid.toString() + "/change-external-attendees/";
+  }
+
+  static String getClearUrl(int venueId) {
+    return getBaseURL() + "api/myadmin/" + venueId.toString() + "/clear/";
+  }
+
+  static String getIncrementUrl(int venueId) {
+    return getBaseURL() + "api/myadmin/" + venueId.toString() + "/increment/";
+  }
+  
 }

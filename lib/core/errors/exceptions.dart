@@ -14,3 +14,4 @@ class NeedsUpdateException implements Exception {}
 class NotAdminException implements Exception {}
 class LockedUserException implements Exception {}
 class UserNotRegistered implements Exception {}
+class CannotChangeException implements Exception {}

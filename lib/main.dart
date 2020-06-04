@@ -1,11 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/localizations/localizations.dart';
 import 'features/reso_venue/presentation/bloc/root_bloc.dart';
-import 'features/reso_venue/presentation/pages/root.dart';
 import 'injection_container.dart' as ic;
+import 'routes/routes.gr.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class _ResoVenueState extends State<ResoVenue> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Reso',
-        home: RootPage(),
+        builder: ExtendedNavigator<Router>(router: Router()),
         theme: ThemeData(
           primaryColor: Color(0xFF1b4774),
           accentColor: Color(0xFF03016c),
@@ -34,7 +35,6 @@ class _ResoVenueState extends State<ResoVenue> {
           //canvasColor: Color(0xFF5104f8),
           bottomAppBarColor: Color(0xFFF3F5F7),
         ),
-        //home: RootPage(),
         supportedLocales: [
           Locale("en"),
           Locale("fr"),

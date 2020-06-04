@@ -302,4 +302,91 @@ class RootRepositoryImpl implements RootRepository {
       return Left(ConnectionFailure(message: Messages.NO_INTERNET));
     }
   }
+
+  @override
+  Future<Either<Failure, TimeSlot>> changeAttendees(bool add, Venue venue, TimeSlot timeslot) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final String authToken = await localDataSource.getAuthToken();
+        Map<String, String> header = Map<String, String>.from(<String, String>{
+          "Authorization": "Token " + authToken.toString(),
+        });
+        final res = await remoteDataSource.changeAttendees(add, venue, timeslot, header);
+        return Right(res);
+      } on CannotChangeException {
+        return Left(CannotChangeFailure());
+      } on AuthenticationException {
+        return Left(
+          AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE),
+        );
+      } on CacheException {
+        return Left(
+            AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE));
+      } catch (e, stacktrace) {
+        print(e);
+        print(stacktrace);
+        return Left(UnknownFailure());
+      }
+    } else {
+      return Left(ConnectionFailure(message: Messages.NO_INTERNET));
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> increment(int increment, Venue venue) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final String authToken = await localDataSource.getAuthToken();
+        Map<String, String> header = Map<String, String>.from(<String, String>{
+          "Authorization": "Token " + authToken.toString(),
+        });
+        final res = await remoteDataSource.increment(increment, venue, header);
+        return Right(res);
+      } on CannotChangeException {
+        return Left(CannotChangeFailure());
+      } on AuthenticationException {
+        return Left(
+          AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE),
+        );
+      } on CacheException {
+        return Left(
+            AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE));
+      } catch (e, stacktrace) {
+        print(e);
+        print(stacktrace);
+        return Left(UnknownFailure());
+      }
+    } else {
+      return Left(ConnectionFailure(message: Messages.NO_INTERNET));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> clear(Venue venue) async {
+   if (await networkInfo.isConnected) {
+      try {
+        final String authToken = await localDataSource.getAuthToken();
+        Map<String, String> header = Map<String, String>.from(<String, String>{
+          "Authorization": "Token " + authToken.toString(),
+        });
+        final res = await remoteDataSource.clear(venue, header);
+        return Right(res);
+      } on CannotChangeException {
+        return Left(CannotChangeFailure());
+      } on AuthenticationException {
+        return Left(
+          AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE),
+        );
+      } on CacheException {
+        return Left(
+            AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE));
+      } catch (e, stacktrace) {
+        print(e);
+        print(stacktrace);
+        return Left(UnknownFailure());
+      }
+    } else {
+      return Left(ConnectionFailure(message: Messages.NO_INTERNET));
+    }
+  }
 }
