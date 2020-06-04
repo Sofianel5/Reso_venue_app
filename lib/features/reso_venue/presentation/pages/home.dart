@@ -34,13 +34,6 @@ class _HomePageState extends State<HomePage> {
       child: AddTimeSlotScreen(),
     ),
     
-    BlocProvider(
-      create: (context) => HelpBloc(
-        getHelp: BlocProvider.of<RootBloc>(context).getHelp,
-        user: BlocProvider.of<RootBloc>(context).user,
-      ),
-      child: HelpScreen(),
-    ),
     */
     BlocProvider(
       create: (context) => CounterPageBloc(
@@ -56,6 +49,13 @@ class _HomePageState extends State<HomePage> {
         BlocProvider.of<RootBloc>(context).scan,
       ),
       child: ScanScreen(),
+    ),
+    BlocProvider(
+      create: (context) => HelpBloc(
+        getHelp: BlocProvider.of<RootBloc>(context).getHelp,
+        user: BlocProvider.of<RootBloc>(context).user,
+      ),
+      child: HelpScreen(),
     ),
     BlocProvider(
       create: (context) =>
@@ -108,6 +108,12 @@ class _HomePageState extends State<HomePage> {
                   Icon(
                     Icons.camera,
                     color: _selectedPage == 2
+                        ? Theme.of(context).scaffoldBackgroundColor
+                        : Colors.black,
+                  ),
+                  Icon(
+                    Icons.help,
+                    color: _selectedPage == 3
                         ? Theme.of(context).scaffoldBackgroundColor
                         : Colors.black,
                   ),
