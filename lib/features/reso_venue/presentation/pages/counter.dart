@@ -49,8 +49,10 @@ class CounterPageState extends State<CounterPage> {
                 ]),
             Spacer(),
 
-            Text('visitors in your store',
-                style: Theme.of(context).textTheme.display1),
+            Text(
+              'visitors in your store',
+              style: Theme.of(context).textTheme.display1,
+            ),
             Spacer(flex: 2),
 
             Row(

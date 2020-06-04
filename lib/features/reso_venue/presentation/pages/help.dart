@@ -1,3 +1,5 @@
+import 'package:Reso_venue/core/localizations/localizations.dart';
+
 import '../bloc/root_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,9 +31,12 @@ class HelpScreenState extends State<HelpScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         color: Theme.of(context).accentColor,
         child: (state is LoadingHelpState)
-            ? Container(child: CircularProgressIndicator(backgroundColor: Colors.white))
+            ? Container(
+                child: CircularProgressIndicator(backgroundColor: Colors.white))
             : Text(
-                "Submit",
+                Localizer.of(context).get(
+                  "Submit",
+                ),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -47,9 +52,10 @@ class HelpScreenState extends State<HelpScreen> {
       bloc: BlocProvider.of<HelpBloc>(context),
       listener: (context, state) {
         if (state is FailedHelpState) {
-          Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+          Scaffold.of(context)
+              .showSnackBar(SnackBar(content: Text(state.message)));
         } else {
-          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Success")));
+          Scaffold.of(context).showSnackBar(SnackBar(content: Text(Localizer.of(context).get("Success"))));
         }
       },
       child: BlocBuilder(
@@ -65,14 +71,15 @@ class HelpScreenState extends State<HelpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Get help",
+                      Localizer.of(context).get(
+                      "get-help"),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 25,
                       ),
                     ),
                     ListTile(
-                      title: Text('Reschedule time slots'),
+                      title: Text(Localizer.of(context).get('reschedule')),
                       leading: Radio(
                         value: "Reschedule time slots",
                         groupValue: message,
@@ -84,7 +91,7 @@ class HelpScreenState extends State<HelpScreen> {
                       ),
                     ),
                     ListTile(
-                      title: Text('Change your details'),
+                      title: Text(Localizer.of(context).get("change-details")),
                       leading: Radio(
                         value: "Change your details",
                         groupValue: message,
@@ -96,7 +103,7 @@ class HelpScreenState extends State<HelpScreen> {
                       ),
                     ),
                     ListTile(
-                      title: Text('Other'),
+                      title: Text(Localizer.of(context).get('other')),
                       leading: Radio(
                         value: "other",
                         groupValue: message,
@@ -108,21 +115,19 @@ class HelpScreenState extends State<HelpScreen> {
                       ),
                     ),
                     if (message == "other")
-                      Container(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(maxHeight: 50),
-                          child: Scrollbar(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              reverse: false,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                ),
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                controller: customMessage,
+                      ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 100),
+                        child: Scrollbar(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            reverse: false,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(gapPadding: 0,),
                               ),
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              controller: customMessage,
                             ),
                           ),
                         ),

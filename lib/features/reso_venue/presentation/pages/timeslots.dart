@@ -13,6 +13,9 @@ class TimeSlotsScreen extends StatefulWidget {
 }
 
 class _TimeSlotsScreenState extends State<TimeSlotsScreen> {
+  void didPopNext() {
+    BlocProvider.of<TimeSlotsBloc>(context).add(TimeSlotCreation());
+  }
   Widget _buildList(BuildContext context, List<TimeSlot> list) {
     return Container(
       height: MediaQuery.of(context).size.height - 270,
@@ -30,7 +33,7 @@ class _TimeSlotsScreenState extends State<TimeSlotsScreen> {
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final RootBloc rootBloc = BlocProvider.of<RootBloc>(context);

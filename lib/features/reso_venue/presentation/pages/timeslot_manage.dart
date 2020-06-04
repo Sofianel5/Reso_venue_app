@@ -1,3 +1,4 @@
+import 'package:Reso_venue/core/localizations/localizations.dart';
 import 'package:Reso_venue/features/reso_venue/domain/entities/timeslot.dart';
 import 'package:Reso_venue/features/reso_venue/presentation/bloc/root_bloc.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,6 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
             builder: (BuildContext context) {
               // return object of type Dialog
               return AlertDialog(
-                //! LOCALIZE
                 title: _buildDeleteTitle(state),
                 content: _buildDeleteContents(state),
                 actions: _buildDeleteActions(bloc),
@@ -58,7 +58,7 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
           );
         } else if (state is ManageSnackBarState) {
           _key.currentState
-          .showSnackBar(SnackBar(content: Text(state.message)));
+              .showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
       bloc: bloc,
@@ -95,8 +95,10 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
                           },
                         ),
                       ),
-                      Text("Manage time slot"),
-                      Container(width: 30,),
+                      Text(Localizer.of(context).get("manage-timeslot"), style: Theme.of(context).textTheme.title),
+                      Container(
+                        width: 40,
+                      ),
                     ],
                   ),
                 ),
@@ -145,16 +147,44 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
                                     DateFormat("jm")
                                         .format(state.timeSlot.stop),
                                 style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.w500),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
+                              SizedBox(height: 30),
+                              Text(
+                                (state.timeSlot.maxAttendees).toString() +
+                                    " " +
+                                    Localizer.of(context).get("total-spaces"),
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(height: 30),
+                              Text(
+                                (state.timeSlot.maxAttendees -
+                                            state.timeSlot.numAttendees)
+                                        .toString() +
+                                    " " +
+                                    Localizer.of(context).get("spaces-open"),
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
                             ],
                           ),
                         ),
                         Spacer(),
                         _buildSubtractButton(state, bloc, context),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         _buildAddButton(state, bloc, context),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         _buildDeleteButton(state, bloc, context)
                       ],
                     ),
@@ -168,7 +198,7 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
     );
   }
 
-    Widget _buildDeleteTitle(ManageDialogueState state) {
+  Widget _buildDeleteTitle(ManageDialogueState state) {
     if (state is DeleteConfirm) {
       //! Localize
       return Text("Delete time slot?");
@@ -207,7 +237,8 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
     }
   }
 
-  Widget _buildDeleteButton(TimeSlotManageState state, TimeSlotManageBloc bloc, BuildContext context) {
+  Widget _buildDeleteButton(TimeSlotManageState state, TimeSlotManageBloc bloc,
+      BuildContext context) {
     return Container(
       width: double.infinity,
       child: RaisedButton(
@@ -223,9 +254,7 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        color: (state is LoadingTimeSlot)
-            ? Colors.grey
-            : Colors.red,
+        color: (state is LoadingTimeSlot) ? Colors.grey : Colors.red,
         child: Text(
           "Delete",
           style: TextStyle(
@@ -236,7 +265,9 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
       ),
     );
   }
-  Widget _buildAddButton(TimeSlotManageState state, TimeSlotManageBloc bloc, BuildContext context) {
+
+  Widget _buildAddButton(TimeSlotManageState state, TimeSlotManageBloc bloc,
+      BuildContext context) {
     return Container(
       width: double.infinity,
       child: RaisedButton(
@@ -265,7 +296,9 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
       ),
     );
   }
-  Widget _buildSubtractButton(TimeSlotManageState state, TimeSlotManageBloc bloc, BuildContext context) {
+
+  Widget _buildSubtractButton(TimeSlotManageState state,
+      TimeSlotManageBloc bloc, BuildContext context) {
     return Container(
       width: double.infinity,
       child: RaisedButton(

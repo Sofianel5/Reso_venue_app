@@ -46,8 +46,9 @@ class _ScanScreenState extends State<ScanScreen> {
                 actions: <Widget>[
                   new FlatButton(
                     child: new Text(
-                      //! Localize
-                      "Dismiss",
+                      Localizer.of(context).get(
+                        "Dismiss",
+                      ),
                       style: TextStyle(
                         color: Theme.of(context).accentColor,
                       ),
@@ -66,7 +67,7 @@ class _ScanScreenState extends State<ScanScreen> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Success"),
+                  title: Text(Localizer.of(context).get("Success")),
                   content: Container(
                     height: 300,
                     child: Column(
@@ -86,22 +87,28 @@ class _ScanScreenState extends State<ScanScreen> {
                   actions: <Widget>[
                     new FlatButton(
                       child: new Text(
-                        "Cancel",
+                        Localizer.of(context).get(
+                          "Cancel",
+                        ),
                         style: TextStyle(color: Colors.red),
                       ),
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).pop();
-                        BlocProvider.of<ScanBloc>(context).add(ScanDissmissed());
+                        BlocProvider.of<ScanBloc>(context)
+                            .add(ScanDissmissed());
                       },
                     ),
                     new FlatButton(
                       child: new Text(
-                        "Confirm",
+                        Localizer.of(context).get(
+                          "Confirm",
+                        ),
                         style: TextStyle(color: Theme.of(context).accentColor),
                       ),
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).pop();
-                        BlocProvider.of<ScanBloc>(context).add(ScanDissmissed());
+                        BlocProvider.of<ScanBloc>(context)
+                            .add(ScanDissmissed());
                       },
                     ),
                   ],
