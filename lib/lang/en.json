@@ -53,6 +53,7 @@
     "pass-for": "Pass for",
     "Register": "Register",
     "Success": "Success",
+    "SUCCESS": "Operation succeeded",
     "failed": "Failed",
     "successfully-registered": "You have successfully registered for this timeslot",
     "Dismiss": "Dismiss",
@@ -90,5 +91,14 @@
     "other": "Other",
     "manage-timeslot": "Manage time slot",
     "total-spaces": "total spaces",
-    "spaces-open": "spaces open"
+    "spaces-open": "spaces open",
+    "NOT_ADMIN": "You are not a venue admin",
+    "LOCKED_USER": "Cannot scan: user is locked",
+    "NOT_REGISTERED": "User is not registered for the current time slot",
+    "NOT_USER_ID": "You are not scanning for",
+    "INVALID_ORDER": "Dates not in order",
+    "NULL_MESSAGE_FIELD": "Empty message",
+    "CANNOT_CHANGE": "Cannot change.",
+    "CANNOT_ADD": "Cannot add an external attendee. This time slot is probably full.",
+    "CANNOT_SUBTRACT": "Cannot remove an external attendee. You probably do not have any for this timeslot."
 }

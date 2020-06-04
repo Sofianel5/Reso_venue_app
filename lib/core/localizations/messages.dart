@@ -28,7 +28,7 @@ class Messages {
   static const String INVALID_ORDER = "INVALID_ORDER";
   static const String NULL_MESSAGE_FIELD = "NULL_MESSAGE_FIELD";
   static const String CANNOT_CHANGE = "CANNOT_CHANGE";
-  static const String CANNOT_ADD = "Cannot add an external attendee. You probably are full.";
+  static const String CANNOT_ADD = "CANNOT_ADD";
   static const String CANNOT_SUBTRACT = "Cannot remove an external attendee. You probably do not have any for this timeslot.";
-  static const String SUCCESS = "Operation succeeded.";
+  static const String SUCCESS = "SUCCESS";
 }
