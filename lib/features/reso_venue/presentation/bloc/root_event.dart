@@ -43,3 +43,8 @@ class PushManage extends RootEvent {
   @override
   List<Object> get props => [timeSlot];
 }
+
+class PushHelpPage extends RootEvent {
+  @override
+  List<Object> get props => [];
+}

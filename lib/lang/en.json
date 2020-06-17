@@ -1,7 +1,7 @@
 {
     "email": "Email address",
     "password": "Password",
-    "submit": "Send",
+    "submit": "Submit",
     "sign-up": "Sign up",
     "forgot-password": "Did you forget your password",
     "welcome": "Welcome to Reso",
@@ -14,10 +14,10 @@
     "NO_USER": "No user",
     "AUTHENTICATION_FAILURE": "Authentication failure",
     "CACHE_WRITE_FAILURE": "Write cache failure",
-    "NULL_PASSWORD_INPUT": "Null password entry",
+    "NULL_PASSWORD_INPUT": "Empty password entry",
     "INVALID_LENGTH_PASSWORD_INPUT": "Input invalid password length",
-    "NULL_NAME_INPUT": "Entry null name",
-    "NULL_EMAIL_INPUT": "Email Input null",
+    "NULL_NAME_INPUT": "Name empty",
+    "NULL_EMAIL_INPUT": "Email empty",
     "INVALID_EMAIL_INPUT": "Email Input Invalid",
     "INVALID_NAME_INPUT": "Entering invalid name",
     "INVALID_LENGTH_NAME_INPUT": "Length name entry invalid",
@@ -100,5 +100,11 @@
     "NULL_MESSAGE_FIELD": "Empty message",
     "CANNOT_CHANGE": "Cannot change.",
     "CANNOT_ADD": "Cannot add an external attendee. This time slot is probably full.",
-    "CANNOT_SUBTRACT": "Cannot remove an external attendee. You probably do not have any for this timeslot."
+    "CANNOT_SUBTRACT": "Cannot remove an external attendee. You probably do not have any for this timeslot.",
+    "num-attendees": "Capacity",
+    "start": "Start",
+    "stop": "End",
+    "type": "Type",
+    "add-timeslots": "Add time slots",
+    "Choose": "Choose"
 }

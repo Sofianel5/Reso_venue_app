@@ -1,4 +1,5 @@
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:Reso_venue/features/reso_venue/presentation/widgets/datetime_picker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
       listener: (context, state) {
         if (state is AddTimeSlotFailure) {
           Scaffold.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
+              .showSnackBar(SnackBar(content: Text(Localizer.of(context).get(state.message))));
         } else if (state is AddTimeSlotSuccess) {
           setState(() {
             start = null;
@@ -34,8 +35,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
             _numAttendees = TextEditingController();
             type = null;
           });
-          //! Localize
-          Scaffold.of(context).showSnackBar(SnackBar(content: Text("Success")));
+          Scaffold.of(context).showSnackBar(SnackBar(content: Text(Localizer.of(context).get("Success"))));
         }
       },
       bloc: BlocProvider.of<AddTimeSlotBloc>(context),
@@ -58,128 +58,111 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                       Text(Localizer.of(context).get("num-attendees"),
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w500)),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: TextField(
-                          //! Localize
-                          decoration:
-                              InputDecoration(labelText: "Num attendees"),
-                          controller: _numAttendees,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            WhitelistingTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                      ),
                     ],
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          labelText:
+                              Localizer.of(context).get("num-attendees")),
+                      controller: _numAttendees,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                          Localizer.of(context).get("start") +
+                              ": " +
+                              (start != null ? formatter.format(start ?? DateTime.now()) : Localizer.of(context).get("Choose")),
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      DatePicker.showPicker(context,
+                          showTitleActions: true, onChanged: (date) {
+                        print('change $date in time zone ' +
+                            date.timeZoneOffset.inHours.toString());
+                      }, onConfirm: (date) {
+                        print('confirm $date');
+                        setState(() {
+                          start = date;
+                        });
+                      }, pickerModel: CustomPicker(currentTime: DateTime.now(),locale: LocaleType.en),
+                      );
+                    },
+                    child: Text(
+                      'Choose',
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      //! Localize
-                      Text("start",
+                      Text(
+                          Localizer.of(context).get("stop") +
+                              ": " +
+                              (stop != null ? formatter.format(stop) : Localizer.of(context).get("Choose")),
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w500)),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: DateTimeField(
-                          format: formatter,
-                          onShowPicker: (context, currentValue) async {
-                            final date = await showDatePicker(
-                                context: context,
-                                firstDate: DateTime.now(),
-                                initialDate: currentValue ?? DateTime.now(),
-                                lastDate: DateTime(2100));
-                            if (date != null) {
-                              final time = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.fromDateTime(
-                                    currentValue ?? DateTime.now()),
-                              );
-                              final res = DateTimeField.combine(date, time);
-                              print(res);
-                              start = res;
-                              return res;
-                            } else {
-                              return currentValue;
-                            }
-                          },
-                          onChanged: (date) {
-  
-                          },
-                        ),
-                      ),
                     ],
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      DatePicker.showPicker(context,
+                          showTitleActions: true, onChanged: (date) {
+                        print('change $date in time zone ' +
+                            date.timeZoneOffset.inHours.toString());
+                      }, onConfirm: (date) {
+                        print('confirm $date');
+                        setState(() {
+                          stop = date;
+                        });
+                      }, pickerModel: CustomPicker(currentTime: DateTime.now(),locale: LocaleType.en),
+                      );
+                    },
+                    child: Text(
+                      'Choose',
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      //! Localize
-                      Text("stop",
+                      Text(Localizer.of(context).get("type"),
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w500)),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: DateTimeField(
-                          format: formatter,
-                          onShowPicker: (context, currentValue) async {
-                            final date = await showDatePicker(
-                                context: context,
-                                firstDate: DateTime.now(),
-                                initialDate: currentValue ?? DateTime.now(),
-                                lastDate: DateTime(2100));
-                            if (date != null) {
-                              final time = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.fromDateTime(
-                                    currentValue ?? DateTime.now()),
-                              );
-                              final res = DateTimeField.combine(date, time);
-                              print(res);
-                              stop = res;
-                              return res;
-                            } else {
-                              return currentValue;
-                            }
-                          },
-                          onChanged: (date) {
-  
-                          },
-                        ),
-                      ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      //! Localize
-                      Text("type",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500)),
-                      DropdownButton(
-                        iconEnabledColor: Colors.white,
-                        value: type,
-                        iconSize: 24,
-                        elevation: 16,
-                        //! Localize
-                        items: TimeSlot.types
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            type = value;
-                          });
-                        },
-                        icon: Icon(Icons.arrow_downward),
-                      ),
-                    ],
+                  DropdownButton(
+                    iconEnabledColor: Colors.white,
+                    value: type,
+                    iconSize: 24,
+                    elevation: 16,
+                    items: TimeSlot.types
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(Localizer.of(context).get(value)),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                    icon: Icon(Icons.arrow_downward),
                   ),
                   SizedBox(
                     height: 50,
@@ -240,7 +223,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
       padding: const EdgeInsets.only(top: 50),
       child: Text(
         //! LOCALIZE
-        "Add Time Slots",
+        Localizer.of(context).get("add-timeslots"),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: TextStyle(

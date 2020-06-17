@@ -1,3 +1,4 @@
+import 'package:Reso_venue/features/reso_venue/presentation/pages/add_timeslot.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,6 @@ class _HomePageState extends State<HomePage> {
           user: BlocProvider.of<RootBloc>(context).user),
       child: TimeSlotsScreen(),
     ),
-    /*
     BlocProvider(
       create: (context) => AddTimeSlotBloc(
         addTimeSlot: BlocProvider.of<RootBloc>(context).addTimeSlot,
@@ -33,8 +33,6 @@ class _HomePageState extends State<HomePage> {
       ),
       child: AddTimeSlotScreen(),
     ),
-    
-    */
     BlocProvider(
       create: (context) => CounterPageBloc(
         user: BlocProvider.of<RootBloc>(context).user,
@@ -49,13 +47,6 @@ class _HomePageState extends State<HomePage> {
         BlocProvider.of<RootBloc>(context).scan,
       ),
       child: ScanScreen(),
-    ),
-    BlocProvider(
-      create: (context) => HelpBloc(
-        getHelp: BlocProvider.of<RootBloc>(context).getHelp,
-        user: BlocProvider.of<RootBloc>(context).user,
-      ),
-      child: HelpScreen(),
     ),
     BlocProvider(
       create: (context) =>
@@ -99,27 +90,27 @@ class _HomePageState extends State<HomePage> {
                         : Colors.black,
                   ),
                   Icon(
-                    Icons.confirmation_number,
+                    Icons.add,
                     size: 30,
                     color: _selectedPage == 1
                         ? Theme.of(context).scaffoldBackgroundColor
                         : Colors.black,
                   ),
                   Icon(
-                    Icons.camera,
+                    Icons.confirmation_number,
+                    size: 30,
                     color: _selectedPage == 2
                         ? Theme.of(context).scaffoldBackgroundColor
                         : Colors.black,
                   ),
                   Icon(
-                    Icons.help,
+                    Icons.camera,
                     color: _selectedPage == 3
                         ? Theme.of(context).scaffoldBackgroundColor
                         : Colors.black,
                   ),
                   Icon(
                     Icons.account_circle,
-                    size: 30,
                     color: _selectedPage == 4
                         ? Theme.of(context).scaffoldBackgroundColor
                         : Colors.black,

@@ -12,6 +12,8 @@ class AccountPageBloc extends Bloc<AccountPageEvent, AccountState> {
 
   @override
   Stream<AccountState> mapEventToState(AccountPageEvent event) async* {
+    if (event is AccountPageOpened) {
       yield AccountLoadedState(user);
+    }
   }
 }

@@ -10,6 +10,25 @@ class HelpScreen extends StatefulWidget {
 }
 
 class HelpScreenState extends State<HelpScreen> {
+  @override
+  Widget build(BuildContext context) {
+    BlocProvider(
+      create: (context) => HelpBloc(
+        getHelp: BlocProvider.of<RootBloc>(context).getHelp,
+        user: BlocProvider.of<RootBloc>(context).user,
+      ),
+      child: HelpScreenChild(),
+    );
+  }
+  
+}
+
+class HelpScreenChild extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => HelpScreenChildState();
+}
+
+class HelpScreenChildState extends State<HelpScreen> {
   String message;
   TextEditingController customMessage = TextEditingController();
   Widget _buildSubmitButton(HelpState state) {
@@ -61,81 +80,84 @@ class HelpScreenState extends State<HelpScreen> {
       child: BlocBuilder(
         bloc: BlocProvider.of<HelpBloc>(context),
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      Localizer.of(context).get(
-                      "get-help"),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 25,
+          return SafeArea(
+            bottom: false,
+                      child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 80),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        Localizer.of(context).get(
+                        "get-help"),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 25,
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      title: Text(Localizer.of(context).get('reschedule')),
-                      leading: Radio(
-                        value: "Reschedule time slots",
-                        groupValue: message,
-                        onChanged: (String value) {
-                          setState(() {
-                            message = value;
-                          });
-                        },
+                      ListTile(
+                        title: Text(Localizer.of(context).get('reschedule')),
+                        leading: Radio(
+                          value: "Reschedule time slots",
+                          groupValue: message,
+                          onChanged: (String value) {
+                            setState(() {
+                              message = value;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      title: Text(Localizer.of(context).get("change-details")),
-                      leading: Radio(
-                        value: "Change your details",
-                        groupValue: message,
-                        onChanged: (String value) {
-                          setState(() {
-                            message = value;
-                          });
-                        },
+                      ListTile(
+                        title: Text(Localizer.of(context).get("change-details")),
+                        leading: Radio(
+                          value: "Change your details",
+                          groupValue: message,
+                          onChanged: (String value) {
+                            setState(() {
+                              message = value;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    ListTile(
-                      title: Text(Localizer.of(context).get('other')),
-                      leading: Radio(
-                        value: "other",
-                        groupValue: message,
-                        onChanged: (String value) {
-                          setState(() {
-                            message = value;
-                          });
-                        },
+                      ListTile(
+                        title: Text(Localizer.of(context).get('other')),
+                        leading: Radio(
+                          value: "other",
+                          groupValue: message,
+                          onChanged: (String value) {
+                            setState(() {
+                              message = value;
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                    if (message == "other")
-                      ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: 100),
-                        child: Scrollbar(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            reverse: false,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(gapPadding: 0,),
+                      if (message == "other")
+                        ConstrainedBox(
+                          constraints: BoxConstraints(maxHeight: 100),
+                          child: Scrollbar(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              reverse: false,
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(gapPadding: 0,),
+                                ),
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                controller: customMessage,
                               ),
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              controller: customMessage,
                             ),
                           ),
-                        ),
-                      )
-                  ],
-                ),
-                _buildSubmitButton(state)
-              ],
+                        )
+                    ],
+                  ),
+                  _buildSubmitButton(state)
+                ],
+              ),
             ),
           );
         },

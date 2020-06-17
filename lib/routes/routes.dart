@@ -9,4 +9,5 @@ class $Router {
   @initial
   RootPage rootPage;
   ManageScreen manage;
+  HelpScreen help;
 }
