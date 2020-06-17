@@ -90,8 +90,9 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                     onPressed: () {
                       DatePicker.showPicker(context,
                           showTitleActions: true, onChanged: (date) {
-                        print('change $date in time zone ' +
-                            date.timeZoneOffset.inHours.toString());
+                        setState(() {
+                          start = date;
+                        });
                       }, onConfirm: (date) {
                         print('confirm $date');
                         setState(() {
@@ -121,8 +122,9 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                     onPressed: () {
                       DatePicker.showPicker(context,
                           showTitleActions: true, onChanged: (date) {
-                        print('change $date in time zone ' +
-                            date.timeZoneOffset.inHours.toString());
+                        setState(() {
+                          stop = date;
+                        });
                       }, onConfirm: (date) {
                         print('confirm $date');
                         setState(() {
@@ -148,6 +150,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                   DropdownButton(
                     iconEnabledColor: Colors.white,
                     value: type,
+                    hint: Text(Localizer.of(context).get("Choose")),
                     iconSize: 24,
                     elevation: 16,
                     items: TimeSlot.types
@@ -162,7 +165,7 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
                         type = value;
                       });
                     },
-                    icon: Icon(Icons.arrow_downward),
+                    icon: Icon(Icons.arrow_downward, color: Theme.of(context).accentColor),
                   ),
                   SizedBox(
                     height: 50,

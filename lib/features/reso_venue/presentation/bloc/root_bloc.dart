@@ -125,6 +125,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       ExtendedNavigator.rootNavigator.pop();
     } else if (event is PushManage) {
       ExtendedNavigator.ofRouter<Router>().pushNamed(Routes.manage, arguments: ManageScreenArguments(timeSlot: event.timeSlot));
+    } else if (event is PushHelpPage) {
+       ExtendedNavigator.ofRouter<Router>().pushNamed(Routes.help);
     }
   }
 }

@@ -4,6 +4,7 @@
 // AutoRouteGenerator
 // **************************************************************************
 
+import 'package:Reso_venue/features/reso_venue/presentation/pages/help.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
@@ -14,9 +15,11 @@ import 'package:Reso_venue/features/reso_venue/domain/entities/timeslot.dart';
 abstract class Routes {
   static const rootPage = '/';
   static const manage = '/manage';
+  static const help = "/help";
   static const all = {
     rootPage,
     manage,
+    help,
   };
 }
 
@@ -48,6 +51,11 @@ class Router extends RouterBase {
         final typedArgs = args as ManageScreenArguments;
         return MaterialPageRoute<dynamic>(
           builder: (context) => ManageScreen(timeSlot: typedArgs.timeSlot),
+          settings: settings,
+        );
+      case Routes.help:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => HelpScreen(),
           settings: settings,
         );
       default:

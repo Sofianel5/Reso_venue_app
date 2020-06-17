@@ -2,16 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:route_observer_mixin/route_observer_mixin.dart';
 
 import 'core/localizations/localizations.dart';
 import 'features/reso_venue/presentation/bloc/root_bloc.dart';
+import 'features/reso_venue/presentation/pages/root.dart';
 import 'injection_container.dart' as ic;
 import 'routes/routes.gr.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ic.init();
-  runApp(ResoVenue());
+  runApp(RouteObserverProvider(child: ResoVenue()));
 }
 
 class ResoVenue extends StatefulWidget {
@@ -20,6 +22,7 @@ class ResoVenue extends StatefulWidget {
 }
 
 class _ResoVenueState extends State<ResoVenue> {
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -28,6 +31,8 @@ class _ResoVenueState extends State<ResoVenue> {
         debugShowCheckedModeBanner: false,
         title: 'Reso',
         builder: ExtendedNavigator<Router>(router: Router()),
+        navigatorObservers: [RouteObserverProvider.of(context)],
+        home: RootPage(),
         theme: ThemeData(
           primaryColor: Color(0xFF1b4774),
           accentColor: Color(0xFF03016c),

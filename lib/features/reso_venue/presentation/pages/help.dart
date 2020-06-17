@@ -12,7 +12,7 @@ class HelpScreen extends StatefulWidget {
 class HelpScreenState extends State<HelpScreen> {
   @override
   Widget build(BuildContext context) {
-    BlocProvider(
+    return BlocProvider(
       create: (context) => HelpBloc(
         getHelp: BlocProvider.of<RootBloc>(context).getHelp,
         user: BlocProvider.of<RootBloc>(context).user,
@@ -20,7 +20,6 @@ class HelpScreenState extends State<HelpScreen> {
       child: HelpScreenChild(),
     );
   }
-  
 }
 
 class HelpScreenChild extends StatefulWidget {
@@ -28,7 +27,7 @@ class HelpScreenChild extends StatefulWidget {
   State<StatefulWidget> createState() => HelpScreenChildState();
 }
 
-class HelpScreenChildState extends State<HelpScreen> {
+class HelpScreenChildState extends State<HelpScreenChild> {
   String message;
   TextEditingController customMessage = TextEditingController();
   Widget _buildSubmitButton(HelpState state) {
@@ -65,102 +64,146 @@ class HelpScreenChildState extends State<HelpScreen> {
     );
   }
 
+  final _key = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
       bloc: BlocProvider.of<HelpBloc>(context),
       listener: (context, state) {
+        print(state);
+        FocusScope.of(context).unfocus();
         if (state is FailedHelpState) {
-          Scaffold.of(context)
+          _key.currentState
               .showSnackBar(SnackBar(content: Text(state.message)));
         } else {
-          Scaffold.of(context).showSnackBar(SnackBar(content: Text(Localizer.of(context).get("Success"))));
+          _key.currentState.showSnackBar(
+              SnackBar(content: Text(Localizer.of(context).get("Success"))));
         }
       },
       child: BlocBuilder(
         bloc: BlocProvider.of<HelpBloc>(context),
         builder: (context, state) {
-          return SafeArea(
-            bottom: false,
-                      child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 80),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Column(
+          return Scaffold(
+            key: _key,
+            backgroundColor: Color(0xFFF3F5F7),
+            body: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        Localizer.of(context).get(
-                        "get-help"),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 25,
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(Localizer.of(context).get('reschedule')),
-                        leading: Radio(
-                          value: "Reschedule time slots",
-                          groupValue: message,
-                          onChanged: (String value) {
-                            setState(() {
-                              message = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(Localizer.of(context).get("change-details")),
-                        leading: Radio(
-                          value: "Change your details",
-                          groupValue: message,
-                          onChanged: (String value) {
-                            setState(() {
-                              message = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(Localizer.of(context).get('other')),
-                        leading: Radio(
-                          value: "other",
-                          groupValue: message,
-                          onChanged: (String value) {
-                            setState(() {
-                              message = value;
-                            });
-                          },
-                        ),
-                      ),
-                      if (message == "other")
-                        ConstrainedBox(
-                          constraints: BoxConstraints(maxHeight: 100),
-                          child: Scrollbar(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              reverse: false,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(gapPadding: 0,),
-                                ),
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                controller: customMessage,
-                              ),
+                      _buildTopRow(context),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          ListTile(
+                            title:
+                                Text(Localizer.of(context).get('reschedule')),
+                            leading: Radio(
+                              value: "Reschedule time slots",
+                              groupValue: message,
+                              onChanged: (String value) {
+                                setState(() {
+                                  message = value;
+                                });
+                              },
                             ),
                           ),
-                        )
+                          ListTile(
+                            title: Text(
+                                Localizer.of(context).get("change-details")),
+                            leading: Radio(
+                              value: "Change your details",
+                              groupValue: message,
+                              onChanged: (String value) {
+                                setState(() {
+                                  message = value;
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            title: Text(Localizer.of(context).get('other')),
+                            leading: Radio(
+                              value: "other",
+                              groupValue: message,
+                              onChanged: (String value) {
+                                setState(() {
+                                  message = value;
+                                });
+                              },
+                            ),
+                          ),
+                          if (message == "other")
+                            ConstrainedBox(
+                              constraints: BoxConstraints(maxHeight: 100),
+                              child: Scrollbar(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  reverse: false,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        gapPadding: 0,
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: null,
+                                    controller: customMessage,
+                                  ),
+                                ),
+                              ),
+                            )
+                        ],
+                      ),
+                      Spacer(),
+                      _buildSubmitButton(state)
                     ],
                   ),
-                  _buildSubmitButton(state)
-                ],
+                ),
               ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  Padding _buildTopRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () {
+              BlocProvider.of<RootBloc>(context).add(PopEvent());
+            },
+            child: IconButton(
+              icon: Icon(Icons.arrow_back),
+              iconSize: 30,
+              color: Colors.black,
+              onPressed: () {
+                BlocProvider.of<RootBloc>(context).add(PopEvent());
+              },
+            ),
+          ),
+          Text(
+            Localizer.of(context).get("get-help"),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 25,
+            ),
+          ),
+          Container(
+            width: 40,
+          ),
+        ],
       ),
     );
   }

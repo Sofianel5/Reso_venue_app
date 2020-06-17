@@ -1,6 +1,6 @@
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:route_observer_mixin/route_observer_mixin.dart';
 
 import '../../../../core/localizations/localizations.dart';
 import '../../domain/entities/timeslot.dart';
@@ -12,10 +12,26 @@ class TimeSlotsScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _TimeSlotsScreenState();
 }
 
-class _TimeSlotsScreenState extends State<TimeSlotsScreen> {
+class _TimeSlotsScreenState extends State<TimeSlotsScreen> with RouteAware, RouteObserverMixin {
+
   void didPopNext() {
+    print("pop next");
     BlocProvider.of<TimeSlotsBloc>(context).add(TimeSlotCreation());
   }
+  @override
+  void didPush() {
+    print("push");
+  }
+  @override
+  void didPop() { 
+    print("pop");
+  }
+
+  @override
+  void didPushNext() { 
+    print("push next");
+  }
+
   Widget _buildList(BuildContext context, List<TimeSlot> list) {
     return Container(
       height: MediaQuery.of(context).size.height - 270,

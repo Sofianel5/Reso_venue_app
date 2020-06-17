@@ -73,9 +73,7 @@ class TimeSlotCard extends StatelessWidget {
               icon: Icon(Icons.settings),
               color: Colors.grey,
               onPressed: () {
-                BlocProvider.of<RootBloc>(context).add(
-                  PushManage(timeslot),
-                );
+                BlocProvider.of<RootBloc>(context).add(PushManage(timeslot),);
               },
             ),
           ],
