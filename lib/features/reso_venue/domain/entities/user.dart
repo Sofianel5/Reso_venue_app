@@ -14,7 +14,8 @@ class User extends Equatable{
   bool isLocked;
   Coordinates coordinates;
   Address address;
-  Venue venue;
+  List<Venue> venues;
+  int currentVenue = 0;
 
   User({
     this.id,  

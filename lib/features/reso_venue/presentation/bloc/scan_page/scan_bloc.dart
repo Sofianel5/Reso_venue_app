@@ -11,7 +11,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   @override
   Stream<ScanState> mapEventToState(ScanEvent event) async* {
     if (event is ScanAttempted) {
-      final result = await scan(ScanParams(userId: event.uuid, venue: user.venue));
+      final result = await scan(ScanParams(userId: event.uuid, venue: user.venues[user.currentVenue]));
       yield* result.fold((failure) async* {
         yield ScanUnsuccessfulState(user, failure.message);
       }, (res) async* {

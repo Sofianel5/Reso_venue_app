@@ -4,3 +4,8 @@ class AccountPageEvent extends HomeEvent {}
 
 class AccountPageOpened extends AccountPageEvent {}
 
+class AccountVenueChange extends AccountPageEvent {
+  final int idx;
+  AccountVenueChange(this.idx);
+}
+

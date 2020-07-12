@@ -15,16 +15,18 @@ class TimeSlotCard extends StatelessWidget {
       onTap: () {},
       child: Container(
         decoration: BoxDecoration(
-            //border: Border.all(color: Colors.black, width: 1),
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  spreadRadius: 10,
-                  offset: Offset.fromDirection(-0.2))
-            ]),
+          //border: Border.all(color: Colors.black, width: 1),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              spreadRadius: 10,
+              offset: Offset.fromDirection(-0.2),
+            )
+          ],
+        ),
         padding: EdgeInsets.all(0),
         height: 125,
         child: Row(
@@ -73,7 +75,9 @@ class TimeSlotCard extends StatelessWidget {
               icon: Icon(Icons.settings),
               color: Colors.grey,
               onPressed: () {
-                BlocProvider.of<RootBloc>(context).add(PushManage(timeslot),);
+                BlocProvider.of<RootBloc>(context).add(
+                  PushManage(timeslot),
+                );
               },
             ),
           ],

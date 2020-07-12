@@ -14,6 +14,9 @@ class AccountPageBloc extends Bloc<AccountPageEvent, AccountState> {
   Stream<AccountState> mapEventToState(AccountPageEvent event) async* {
     if (event is AccountPageOpened) {
       yield AccountLoadedState(user);
+    } else if (event is AccountVenueChange) {
+      user.currentVenue = event.idx;
+      yield AccountLoadedState(user);
     }
   }
 }

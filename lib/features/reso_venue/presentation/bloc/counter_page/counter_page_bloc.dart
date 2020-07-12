@@ -18,7 +18,7 @@ class CounterPageBloc extends Bloc<CounterPageEvent, CounterPageState> {
     print(event);
     if (event is CounterPageCreated) {
       final result =
-          await increment(IncrementParams(increment: 0, venue: user.venue));
+          await increment(IncrementParams(increment: 0, venue: user.venues[user.currentVenue]));
       yield* result.fold(
         (failure) async* {
           yield CounterPageLoadFailed(user, failure.message);
@@ -29,7 +29,7 @@ class CounterPageBloc extends Bloc<CounterPageEvent, CounterPageState> {
       );
     } else if (event is CounterPageClearConfirm) {
       yield CounterPageLoading(user);
-      final result = await clear(ClearParams(venue: user.venue));
+      final result = await clear(ClearParams(venue: user.venues[user.currentVenue]));
       yield* result.fold(
         (failure) async* {
           yield CounterPageLoadFailed(user, failure.message);
@@ -41,7 +41,7 @@ class CounterPageBloc extends Bloc<CounterPageEvent, CounterPageState> {
     } else if (event is CounterPageIncrement) {
       yield CounterPageLoading(user);
       final result = await increment(
-          IncrementParams(increment: event.by, venue: user.venue));
+          IncrementParams(increment: event.by, venue: user.venues[user.currentVenue]));
       yield* result.fold(
         (failure) async* {
           yield CounterPageLoadFailed(user, failure.message);

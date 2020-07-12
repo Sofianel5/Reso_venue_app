@@ -15,7 +15,7 @@ class AddTimeSlotBloc extends Bloc<AddTimeSlotEvent, AddTimeSlotState> {
       yield AddTimeSlotLoading(user);
       print(event.start);
       print(event.stop);
-      final result = await addTimeSlot(AddTimeSlotParams(venue: user.venue, end: event.stop, start: event.start, numAttendees: event.numAttendees, type: event.type));
+      final result = await addTimeSlot(AddTimeSlotParams(venue: user.venues[user.currentVenue], end: event.stop, start: event.start, numAttendees: event.numAttendees, type: event.type));
       yield* result.fold((failure) async* {
         yield AddTimeSlotFailure(user, failure.message);
       }, (success) async* {

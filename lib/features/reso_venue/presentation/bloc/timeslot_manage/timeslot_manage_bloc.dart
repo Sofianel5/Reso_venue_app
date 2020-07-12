@@ -15,7 +15,7 @@ class TimeSlotManageBloc extends Bloc<TimeSlotManageEvent, TimeSlotManageState> 
       yield DeleteConfirm(user, timeslot);
     } else if (event is TimeSlotDeleteConfirm) {
       yield LoadingTimeSlot(user, timeslot);
-      final result = await delete(DeleteTimeSlotParams(timeslot: timeslot, venue: user.venue));
+      final result = await delete(DeleteTimeSlotParams(timeslot: timeslot, venue: user.venues[user.currentVenue]));
       yield* result.fold((failure) async* {
         yield DeleteFailed(user, failure.message, timeslot);
       }, (res) async* {
@@ -23,7 +23,7 @@ class TimeSlotManageBloc extends Bloc<TimeSlotManageEvent, TimeSlotManageState> 
       });
     } else if (event is AddAttendeeEvent) {
       yield LoadingTimeSlot(user, timeslot);
-      final result = await changeAttendees(ChangeAttendeesParams(add: true, timeslot: timeslot, venue: user.venue));
+      final result = await changeAttendees(ChangeAttendeesParams(add: true, timeslot: timeslot, venue: user.venues[user.currentVenue]));
       yield* result.fold((failure) async* {
         yield ChangeAttendeesFailed(user, timeslot, Messages.CANNOT_ADD);
       }, (_timeslot) async* {
@@ -32,7 +32,7 @@ class TimeSlotManageBloc extends Bloc<TimeSlotManageEvent, TimeSlotManageState> 
       });
     } else if (event is RemoveAttendeeEvent) {
       yield LoadingTimeSlot(user, timeslot);
-      final result = await changeAttendees(ChangeAttendeesParams(add: false, timeslot: timeslot, venue: user.venue));
+      final result = await changeAttendees(ChangeAttendeesParams(add: false, timeslot: timeslot, venue: user.venues[user.currentVenue]));
       yield* result.fold((failure) async* {
         yield ChangeAttendeesFailed(user, timeslot, Messages.CANNOT_SUBTRACT);
       }, (_timeslot) async* {

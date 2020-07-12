@@ -13,7 +13,7 @@ class HelpBloc extends Bloc<HelpEvent, HelpState> {
   Stream<HelpState> mapEventToState(HelpEvent event) async* {
     if (event is RequestHelp) {
       yield LoadingHelpState(user);
-      final result = await getHelp(GetHelpParams(venue: user.venue, info: event.message));
+      final result = await getHelp(GetHelpParams(venue: user.venues[user.currentVenue], info: event.message));
       yield* result.fold((failure) async* {
         print(failure.message);
         yield FailedHelpState(user, failure.message);
