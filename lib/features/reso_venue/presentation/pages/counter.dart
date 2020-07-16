@@ -21,7 +21,7 @@ class CounterPageState extends State<CounterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Spacer(flex: 4),
-            Text('You have', style: Theme.of(context).textTheme.display1),
+            Text('You have', style: Theme.of(context).textTheme.headline4),
             Spacer(),
 
             Row(
@@ -34,7 +34,7 @@ class CounterPageState extends State<CounterPage> {
                   if (state is CounterPageLoaded)
                     Text(
                       state.count.toString(),
-                      style: Theme.of(context).textTheme.display3,
+                      style: Theme.of(context).textTheme.headline2,
                     )
                   else if (state is CounterPageLoading)
                     CircularProgressIndicator()
@@ -50,8 +50,13 @@ class CounterPageState extends State<CounterPage> {
             Spacer(),
 
             Text(
-              'visitors in your store',
-              style: Theme.of(context).textTheme.display1,
+              'visitors in',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              state.user.venues[state.user.currentVenue].title,
+              style: Theme.of(context).textTheme.headline4,
+              overflow: TextOverflow.ellipsis,
             ),
             Spacer(flex: 2),
 
@@ -59,7 +64,7 @@ class CounterPageState extends State<CounterPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Text('Add Custom Amount: ',
-                      style: Theme.of(context).textTheme.title),
+                      style: Theme.of(context).textTheme.headline6),
                   RaisedButton(
                     child: Icon(Icons.add_circle),
                     onPressed: _showDialogue,
@@ -69,7 +74,7 @@ class CounterPageState extends State<CounterPage> {
             FlatButton(
               child: Text(
                 'Clear',
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.headline6,
               ),
               onPressed: () => bloc.add(CounterPageClearConfirm()),
             ),

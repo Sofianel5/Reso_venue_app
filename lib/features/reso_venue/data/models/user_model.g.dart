@@ -17,6 +17,10 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     firstName: json['first_name'] as String,
     lastName: json['last_name'] as String,
     isLocked: json['is_locked'] as bool,
+    venues: (json['venues'] as List)
+        ?.map((e) =>
+            e == null ? null : VenueModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     coordinates: json['coordinates'] == null
         ? null
         : CoordinatesModel.fromJson(
@@ -24,10 +28,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     address: json['address'] == null
         ? null
         : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
-    venue: json['venue'] == null
-        ? null
-        : VenueModel.fromJson(json['venue'] as Map<String, dynamic>),
-  );
+  )..currentVenue = json['current_venue'] as int;
 }
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -38,7 +39,8 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'first_name': instance.firstName,
       'last_name': instance.lastName,
       'is_locked': instance.isLocked,
+      'current_venue': instance.currentVenue,
       'coordinates': instance.coordinates?.toJson(),
       'address': instance.address?.toJson(),
-      'venue': instance.venue?.toJson(),
+      'venues': instance.venues?.map((e) => e?.toJson())?.toList(),
     };

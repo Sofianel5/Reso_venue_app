@@ -43,8 +43,8 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.tracery.Reso_venue"
-        minSdkVersion 21
+        applicationId "com.tracery.ResoVenue"
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

@@ -13,7 +13,8 @@ part 'user_model.g.dart';
 class UserModel extends User implements Model {
   final CoordinatesModel coordinates;
   final AddressModel address;
-  final VenueModel venue;
+  final List<VenueModel> venues;
+  int currentVenue = 0;
   UserModel({
     @required int id,
     String email,
@@ -22,10 +23,10 @@ class UserModel extends User implements Model {
     @required String firstName,
     @required String lastName,
     bool isLocked,
+    this.venues,
     this.coordinates,
     this.address,
-    this.venue,
-  }) : super(
+  }) : this.currentVenue = 0, super(
           id: id,
           email: email,
           publicId: publicId,
@@ -33,6 +34,7 @@ class UserModel extends User implements Model {
           firstName: firstName,
           lastName: lastName,
           isLocked: isLocked,
+          venues: venues,
           address: address,
           coordinates: coordinates,
         );

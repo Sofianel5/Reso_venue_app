@@ -32,6 +32,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scanBloc = BlocProvider.of<ScanBloc>(context);
     return BlocListener(
       listener: (context, state) {
         if (state is ScanUnsuccessfulState) {
@@ -55,7 +56,7 @@ class _ScanScreenState extends State<ScanScreen> {
                     ),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop();
-                      BlocProvider.of<ScanBloc>(context).add(ScanDissmissed());
+                      scanBloc.add(ScanDissmissed());
                     },
                   ),
                 ],

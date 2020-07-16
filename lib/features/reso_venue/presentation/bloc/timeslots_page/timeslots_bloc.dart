@@ -13,6 +13,7 @@ class TimeSlotsBloc extends Bloc<TimeSlotEvent, TimeSlotsState> {
   @override
   Stream<TimeSlotsState> mapEventToState(TimeSlotEvent event) async* {
     if (event is TimeSlotCreation) {
+      print(user.currentVenue);
       final timeSlotsOrFail = await getTimeSlots(GetTimeSlotsParams(venue: user.venues[user.currentVenue]));
       yield* timeSlotsOrFail.fold((failure) async* {
         yield TimeSlotsLoadFailure(user, failure.message);

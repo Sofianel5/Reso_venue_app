@@ -34,7 +34,7 @@ class _TimeSlotsScreenState extends State<TimeSlotsScreen> with RouteAware, Rout
 
   Widget _buildList(BuildContext context, List<TimeSlot> list) {
     return Container(
-      height: MediaQuery.of(context).size.height - 270,
+      height: MediaQuery.of(context).size.height - 301,
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
@@ -70,8 +70,14 @@ class _TimeSlotsScreenState extends State<TimeSlotsScreen> with RouteAware, Rout
               height: 70,
             ),
             Text(
-              "Your TimeSlots",
+              Localizer.of(context).get("your-timeslots"),
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
+            ),
+            SizedBox(height: 10,),
+            Text(
+              state.user.venues[state.user.currentVenue].title,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+              overflow: TextOverflow.ellipsis,
             ),
             buildSwitchButtonRow(
                 state, BlocProvider.of<TimeSlotsBloc>(context), context),

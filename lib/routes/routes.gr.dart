@@ -4,18 +4,18 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:Reso_venue/features/reso_venue/presentation/pages/help.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:Reso_venue/features/reso_venue/presentation/pages/root.dart';
 import 'package:Reso_venue/features/reso_venue/presentation/pages/timeslot_manage.dart';
 import 'package:Reso_venue/features/reso_venue/domain/entities/timeslot.dart';
+import 'package:Reso_venue/features/reso_venue/presentation/pages/help.dart';
 
 abstract class Routes {
   static const rootPage = '/';
   static const manage = '/manage';
-  static const help = "/help";
+  static const help = '/help';
   static const all = {
     rootPage,
     manage,

@@ -1,4 +1,5 @@
 import 'package:Reso_venue/core/localizations/localizations.dart';
+import 'package:Reso_venue/features/reso_venue/domain/entities/venue.dart';
 import 'package:Reso_venue/features/reso_venue/presentation/bloc/root_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -124,6 +125,41 @@ class AccountScreenState extends State<AccountScreen> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 24),
                             ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  Localizer.of(context).get("your-venues"),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 24),
+                                ),
+                              ],
+                            ),
+                            for (int i = 0; i < state.user.venues.length; i++)
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(state.user.venues[i].title),
+                                    Switch(
+                                      value: state.user.currentVenue == i,
+                                      onChanged: (value) => setState(
+                                        () {
+                                          BlocProvider.of<AccountPageBloc>(
+                                                  context)
+                                              .add(AccountVenueChange(i));
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             SizedBox(
                               height: 30,
                             ),

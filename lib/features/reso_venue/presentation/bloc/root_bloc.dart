@@ -104,6 +104,7 @@ class RootBloc extends Bloc<RootEvent, RootState> {
             yield ErrorState(message: Messages.NO_INTERNET);
           }, (_user) async* {
             user = _user;
+            user.currentVenue = 0;
             yield AuthenticatedState(user);
           });
         } else {
@@ -111,12 +112,14 @@ class RootBloc extends Bloc<RootEvent, RootState> {
         }
       }, (_user) async* {
         user = _user;
+        user.currentVenue = 0;
         yield AuthenticatedState(user);
       });
       print(user);
     } else if (event is LoginEvent) {
       yield* loginBloc.route(event);
       user = loginBloc.user;
+      user.currentVenue = 0;
     } else if (event is LogoutEvent) {
       user = null;
       await logout(NoParams());

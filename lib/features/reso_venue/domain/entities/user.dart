@@ -16,7 +16,7 @@ class User extends Equatable{
   Address address;
   List<Venue> venues;
   int currentVenue = 0;
-
+  
   User({
     this.id,  
     this.email,
@@ -27,7 +27,8 @@ class User extends Equatable{
     this.coordinates,
     this.address,
     this.isLocked,
-  });
+    this.venues,
+  }) : this.currentVenue = 0;
 
   @override
   List<Object> get props => [id];

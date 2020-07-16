@@ -224,16 +224,26 @@ class _AddTimeSlotScreenState extends State<AddTimeSlotScreen> {
   Padding buildTopPadding(AuthenticatedState state) {
     return Padding(
       padding: const EdgeInsets.only(top: 50),
-      child: Text(
-        //! LOCALIZE
-        Localizer.of(context).get("add-timeslots"),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.center,
+      child: Column(
+        children: [
+          Text(
+            //! LOCALIZE
+            Localizer.of(context).get("add-timeslots"),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 10,),
+          Text(
+              state.user.venues[state.user.currentVenue].title,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
+              overflow: TextOverflow.ellipsis,
+            ),
+        ],
       ),
     );
   }
