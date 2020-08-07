@@ -18,4 +18,7 @@ abstract class RootRepository {
   Future<Either<Failure, TimeSlot>> changeAttendees(bool add, Venue venue, TimeSlot timeslot);
   Future<Either<Failure, int>> increment(int increment, Venue venue);
   Future<Either<Failure, bool>> clear(Venue venue);
+  Future<Either<Failure, User>> changeVenue(User user, int index);
+  Future<Either<Failure, String>> getNotes(Venue venue, TimeSlot timeslot);
+  Future<Either<Failure, String>> editNotes(String newText, Venue venue, TimeSlot timeslot);
 }

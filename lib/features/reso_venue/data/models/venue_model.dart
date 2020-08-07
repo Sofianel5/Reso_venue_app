@@ -5,8 +5,6 @@ import '../../domain/entities/venue.dart';
 import 'address_model.dart';
 import 'coordinates_model.dart';
 import 'model.dart';
-import 'timeslot_model.dart';
-import 'user_model.dart';
 
 part 'venue_model.g.dart';
 
@@ -21,7 +19,10 @@ class VenueModel extends Venue implements Model {
     @required String title,
     String timezone,
     String image,
+    String shareLink,
     String phone,
+    bool allowsNamedAttendees,
+    String notes,
     String email,
     String website,
     this.coordinates,
@@ -31,8 +32,11 @@ class VenueModel extends Venue implements Model {
           type: type,
           description: description,
           title: title,
+          shareLink: shareLink,
           timezone: timezone,
+          allowsNamedAttendees: allowsNamedAttendees,
           image: image,
+          notes: notes,
           phone: phone,
           email: email,
           website: website,

@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:Reso_venue/features/reso_venue/domain/usecases/add_timeslot.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/change_attendees.dart';
+import 'package:Reso_venue/features/reso_venue/domain/usecases/change_venue.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/clear_attendees.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/delete_timeslot.dart';
+import 'package:Reso_venue/features/reso_venue/domain/usecases/edit_notes.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/get_cached_user.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/get_help.dart';
+import 'package:Reso_venue/features/reso_venue/domain/usecases/get_notes.dart';
 import 'package:Reso_venue/features/reso_venue/domain/usecases/increment.dart';
 import 'package:Reso_venue/routes/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
@@ -53,6 +56,10 @@ part 'scan_page/scan_state.dart';
 part 'timeslots_page/timeslots_bloc.dart';
 part 'timeslots_page/timeslots_event.dart';
 part 'timeslots_page/timeslots_state.dart';
+part 'notes_page/notes_page_bloc.dart';
+part 'notes_page/notes_page_event.dart';
+part 'notes_page/notes_page_state.dart';
+
 class RootBloc extends Bloc<RootEvent, RootState> {
   final GetExistingUser getExistingUser;
   final Login login;
@@ -67,6 +74,9 @@ class RootBloc extends Bloc<RootEvent, RootState> {
   final ChangeAttendees changeAttendees;
   final ClearAttendees clear;
   final Increment increment;
+  final EditNotes editNotes;
+  final GetNotes getNotes;
+  final ChangeVenue changeVenue;
   User user;
   RootBloc({
     @required this.getExistingUser,
@@ -80,7 +90,10 @@ class RootBloc extends Bloc<RootEvent, RootState> {
     @required this.getHelp,
     @required this.changeAttendees,
     @required this.clear,
-    @required this.increment
+    @required this.increment,
+    @required this.changeVenue,
+    @required this.editNotes,
+    @required this.getNotes,
   })  : this.loginBloc = LoginBlocRouter(login)
    {
     this.add(GetExistingUserEvent());
@@ -104,7 +117,8 @@ class RootBloc extends Bloc<RootEvent, RootState> {
             yield ErrorState(message: Messages.NO_INTERNET);
           }, (_user) async* {
             user = _user;
-            user.currentVenue = 0;
+            if (user.currentVenue == null)
+              user.currentVenue = 0;
             yield AuthenticatedState(user);
           });
         } else {
@@ -112,14 +126,16 @@ class RootBloc extends Bloc<RootEvent, RootState> {
         }
       }, (_user) async* {
         user = _user;
-        user.currentVenue = 0;
+        if (user.currentVenue == null)
+              user.currentVenue = 0;
         yield AuthenticatedState(user);
       });
       print(user);
     } else if (event is LoginEvent) {
       yield* loginBloc.route(event);
       user = loginBloc.user;
-      user.currentVenue = 0;
+      if (user.currentVenue == null)
+        user.currentVenue = 0;
     } else if (event is LogoutEvent) {
       user = null;
       await logout(NoParams());
@@ -130,6 +146,12 @@ class RootBloc extends Bloc<RootEvent, RootState> {
       ExtendedNavigator.ofRouter<Router>().pushNamed(Routes.manage, arguments: ManageScreenArguments(timeSlot: event.timeSlot));
     } else if (event is PushHelpPage) {
        ExtendedNavigator.ofRouter<Router>().pushNamed(Routes.help);
+    } else if (event is PushAttendeeList) {
+      print(event.timeSlot);
+      ExtendedNavigator.ofRouter<Router>().pushNamed(Routes.attendeeListScreen, arguments: AttendeeListScreenArguments(timeSlot: event.timeSlot));
+    } else if (event is PushNotesPage) {
+      print(event.timeSlot);
+      ExtendedNavigator.ofRouter<Router>().pushNamed(Routes.notesScreen, arguments: NotesScreenArguments(timeSlot: event.timeSlot));
     }
   }
 }

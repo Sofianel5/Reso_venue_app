@@ -3,7 +3,7 @@
     "password": "Password",
     "submit": "Submit",
     "sign-up": "Sign up",
-    "forgot-password": "Did you forget your password",
+    "forgot-password": "Forgot password?",
     "welcome": "Welcome to Reso",
     "sign-in": "Check in",
     "your-timeslots": "Your time slots",
@@ -91,7 +91,7 @@
     "reschedule": "Reschedule time slots",
     "change-details": "Change your account details",
     "other": "Other",
-    "manage-timeslot": "Manage time slot",
+    "manage-timeslot": "Manage Time Slot",
     "total-spaces": "total spaces",
     "spaces-open": "spaces open",
     "NOT_ADMIN": "You are not a venue admin",
@@ -108,5 +108,7 @@
     "stop": "End",
     "type": "Type",
     "add-timeslots": "Add time slots",
-    "Choose": "Choose"
+    "Choose": "Choose",
+    "Notes": "Notes",
+    "Save": "Save"
 }

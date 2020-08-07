@@ -13,10 +13,13 @@ import 'features/reso_venue/data/datasources/remote_datasource.dart';
 import 'features/reso_venue/data/repositories/root_repository_imp.dart';
 import 'features/reso_venue/domain/repositories/root_repository.dart';
 import 'features/reso_venue/domain/usecases/add_timeslot.dart';
+import 'features/reso_venue/domain/usecases/change_venue.dart';
 import 'features/reso_venue/domain/usecases/clear_attendees.dart';
 import 'features/reso_venue/domain/usecases/delete_timeslot.dart';
+import 'features/reso_venue/domain/usecases/edit_notes.dart';
 import 'features/reso_venue/domain/usecases/get_cached_user.dart';
 import 'features/reso_venue/domain/usecases/get_help.dart';
+import 'features/reso_venue/domain/usecases/get_notes.dart';
 import 'features/reso_venue/domain/usecases/get_timeslots.dart';
 import 'features/reso_venue/domain/usecases/get_user.dart';
 import 'features/reso_venue/domain/usecases/increment.dart';
@@ -27,9 +30,12 @@ import 'features/reso_venue/presentation/bloc/root_bloc.dart';
 
 final sl = GetIt.instance;
 Future<void> init() async {
-  sl.registerFactory(() => RootBloc(increment: sl(), clear: sl(), changeAttendees: sl(), getHelp: sl(), delete: sl(), addTimeSlot: sl(), getExistingUser: sl(), getCachedUser: sl(), login: sl(), logout: sl(), getTimeSlots: sl(), scan: sl()));
+  sl.registerFactory(() => RootBloc(editNotes: sl(), getNotes: sl(), changeVenue: sl(), increment: sl(), clear: sl(), changeAttendees: sl(), getHelp: sl(), delete: sl(), addTimeSlot: sl(), getExistingUser: sl(), getCachedUser: sl(), login: sl(), logout: sl(), getTimeSlots: sl(), scan: sl()));
 
   // Usecases
+  sl.registerLazySingleton<EditNotes>(() => EditNotes(sl()));
+  sl.registerLazySingleton<GetNotes>(() => GetNotes(sl()));
+  sl.registerLazySingleton<ChangeVenue>(() => ChangeVenue(sl()));
   sl.registerLazySingleton<Increment>(() => Increment(sl()));
   sl.registerLazySingleton<ClearAttendees>(() => ClearAttendees(sl()));
   sl.registerLazySingleton<ChangeAttendees>(() =>ChangeAttendees(sl()));

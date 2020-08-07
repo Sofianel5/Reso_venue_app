@@ -12,9 +12,12 @@ class Venue extends Equatable {
   String description;
   String title;
   String timezone;
+  bool allowsNamedAttendees;
   String image;
   String phone;
+  String notes;
   String email;
+  String shareLink;
   String website;
   Coordinates coordinates;
   Address address;
@@ -25,11 +28,14 @@ class Venue extends Equatable {
     @required this.title,
     this.timezone,
     this.image,
+    this.notes,
     this.phone,
     this.email,
+    this.shareLink,
     this.website,
     this.coordinates,
     this.address,
+    this.allowsNamedAttendees
   });
 
   @override

@@ -13,6 +13,10 @@ TimeSlotModel _$TimeSlotModelFromJson(Map<String, dynamic> json) {
     stop: json['stop'] == null ? null : DateTime.parse(json['stop'] as String),
     maxAttendees: json['max_attendees'] as int,
     numAttendees: json['num_attendees'] as int,
+    attendees: (json['attendees'] as List)
+        ?.map((e) =>
+            e == null ? null : UserModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     id: json['id'] as int,
     current: json['current'] as bool,
     past: json['past'] as bool,
@@ -30,4 +34,5 @@ Map<String, dynamic> _$TimeSlotModelToJson(TimeSlotModel instance) =>
       'current': instance.current,
       'past': instance.past,
       'type': instance.type,
+      'attendees': instance.attendees?.map((e) => e?.toJson())?.toList(),
     };

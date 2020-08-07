@@ -34,6 +34,8 @@ abstract class RemoteDataSource {
       bool add, Venue venue, TimeSlot timeslot, Map<String, String> headers);
   Future<int> increment(int count, Venue venue, Map<String, dynamic> headers);
   Future<bool> clear(Venue venue, Map<String, dynamic> headers);
+  Future<String> getNotes(Venue venue, TimeSlot timeslot, Map<String, dynamic> headers);
+  Future<String> editNotes(String newText, Venue venue, TimeSlot timeslot, Map<String, dynamic> headers);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -137,8 +139,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       int venueId, Map<String, dynamic> headers) async {
     final response =
         await http.get(Urls.getTimeSlotsForId(venueId), headers: headers);
+    print(response.body);
     if (response.statusCode == 200) {
-      print(response.body);
       final responseJson = json.decode(response.body);
       List<TimeSlot> history = [];
       for (var ts in responseJson["history"]) {
@@ -302,6 +304,44 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       return true;
     } else if (response.statusCode == 406) {
       throw CannotChangeException();
+    } else if (response.statusCode ~/ 100 == 4) {
+      throw AuthenticationException();
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<String> editNotes(String newText, Venue venue, TimeSlot timeslot, Map<String, dynamic> headers) async {
+    Map<String, String> body = Map<String, String>.from(
+      <String, String>{"notes": newText},
+    );
+    final response = await client.post(
+      Urls.getNotesUrl(venue.id, timeslot.id),
+      body: body,
+      headers: headers,
+    );
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return json.decode(response.body)["notes"];
+    } else if (response.statusCode ~/ 100 == 4) {
+      throw AuthenticationException();
+    } else {
+      throw ServerException();
+    }
+  }
+  
+  @override
+  Future<String> getNotes(Venue venue, TimeSlot timeslot, Map<String, dynamic> headers) async {
+    final response = await client.get(
+      Urls.getNotesUrl(venue.id, timeslot.id),
+      headers: headers,
+    );
+    print(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return json.decode(response.body)["notes"];
     } else if (response.statusCode ~/ 100 == 4) {
       throw AuthenticationException();
     } else {

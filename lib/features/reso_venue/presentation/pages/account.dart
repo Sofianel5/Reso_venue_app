@@ -2,6 +2,7 @@ import 'package:Reso_venue/core/localizations/localizations.dart';
 import 'package:Reso_venue/features/reso_venue/domain/entities/venue.dart';
 import 'package:Reso_venue/features/reso_venue/presentation/bloc/root_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -89,7 +90,7 @@ class AccountScreenState extends State<AccountScreen> {
                       ),
                     ),
                     Container(
-                      height: 700,
+                      constraints: BoxConstraints(minHeight: 700),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -156,6 +157,58 @@ class AccountScreenState extends State<AccountScreen> {
                                               .add(AccountVenueChange(i));
                                         },
                                       ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  Localizer.of(context).get("Share"),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 24),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("All your venues"),
+                                    IconButton(
+                                      icon: Icon(Icons.share),
+                                      onPressed: () {
+                                        String name =
+                                            state.user.firstName + " " + state.user.lastName;
+                                        Share.share(
+                                            "View $name's listings on The Reso App " +
+                                                state.user.shareLink);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            for (int i = 0; i < state.user.venues.length; i++)
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(state.user.venues[i].title),
+                                    IconButton(
+                                      icon: Icon(Icons.share),
+                                      onPressed: () {
+                                        String title =
+                                            state.user.venues[i].title;
+                                        Share.share(
+                                            'View $title on The Reso App ' +
+                                                state.user.venues[i].shareLink);
+                                      },
                                     ),
                                   ],
                                 ),

@@ -3,17 +3,19 @@ import 'package:meta/meta.dart';
 
 import '../../domain/entities/timeslot.dart';
 import 'model.dart';
-import 'venue_model.dart';
+import 'user_model.dart';
 
 part 'timeslot_model.g.dart';
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class TimeSlotModel extends TimeSlot implements Model{
+  List<UserModel> attendees;
   TimeSlotModel({
     DateTime start,
     DateTime stop,
     int maxAttendees,
     int numAttendees,
+    this.attendees,
     @required int id,
     bool current,
     bool past,
@@ -24,6 +26,7 @@ class TimeSlotModel extends TimeSlot implements Model{
           id: id,
           maxAttendees: maxAttendees,
           numAttendees: numAttendees,
+          attendees: attendees,
           current: current,
           past: past,
           type: type,

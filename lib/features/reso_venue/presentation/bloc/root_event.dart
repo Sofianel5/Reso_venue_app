@@ -48,3 +48,17 @@ class PushHelpPage extends RootEvent {
   @override
   List<Object> get props => [];
 }
+
+class PushAttendeeList extends RootEvent {
+  final TimeSlot timeSlot;
+  PushAttendeeList(this.timeSlot);
+  @override
+  List<Object> get props => [timeSlot];
+}
+
+class PushNotesPage extends RootEvent {
+  final TimeSlot timeSlot;
+  PushNotesPage(this.timeSlot);
+  @override
+  List<Object> get props => [timeSlot];
+}

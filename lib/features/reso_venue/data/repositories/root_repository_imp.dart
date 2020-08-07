@@ -76,6 +76,16 @@ class RootRepositoryImpl implements RootRepository {
       } catch (e) {
         print(e);
       }
+      try {
+        int currentIndex =  await localDataSource.getCurrentVenue();
+        if (user.venues.length > currentIndex && currentIndex > 0) {
+          user.currentVenue = currentIndex;
+        }
+        print("currentIndex: $currentIndex");
+      } catch(e, stackTrace) {
+        print(e);
+        print(stackTrace);
+      }
       return Right(user);
     });
   }
@@ -373,6 +383,74 @@ class RootRepositoryImpl implements RootRepository {
         return Right(res);
       } on CannotChangeException {
         return Left(CannotChangeFailure());
+      } on AuthenticationException {
+        return Left(
+          AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE),
+        );
+      } on CacheException {
+        return Left(
+            AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE));
+      } catch (e, stacktrace) {
+        print(e);
+        print(stacktrace);
+        return Left(UnknownFailure());
+      }
+    } else {
+      return Left(ConnectionFailure(message: Messages.NO_INTERNET));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> changeVenue(User user, int index) async {
+    try {
+      localDataSource.cacheCurrentVenue(index);
+      user.currentVenue = index;
+      return Right(user);
+    } catch(e, stackTrace) {
+      user.currentVenue = index;
+      print(e);
+      print(stackTrace);
+      return Left(UnknownFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> editNotes(String newText, Venue venue, TimeSlot timeslot) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final String authToken = await localDataSource.getAuthToken();
+        Map<String, String> header = Map<String, String>.from(<String, String>{
+          "Authorization": "Token " + authToken.toString(),
+        });
+        final res = await remoteDataSource.editNotes(newText, venue, timeslot, header);
+        return Right(res);
+      } on AuthenticationException {
+        return Left(
+          AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE),
+        );
+      } on CacheException {
+        return Left(
+            AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE));
+      } catch (e, stacktrace) {
+        print(e);
+        print(stacktrace);
+        return Left(UnknownFailure());
+      }
+    } else {
+      return Left(ConnectionFailure(message: Messages.NO_INTERNET));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, String>> getNotes(Venue venue, TimeSlot timeslot) async {
+   if (await networkInfo.isConnected) {
+      try {
+        final String authToken = await localDataSource.getAuthToken();
+        Map<String, String> header = Map<String, String>.from(<String, String>{
+          "Authorization": "Token " + authToken.toString(),
+        });
+        final res = await remoteDataSource.getNotes(venue, timeslot, header);
+        return Right(res);
       } on AuthenticationException {
         return Left(
           AuthenticationFailure(message: Messages.AUTHENTICATION_FAILURE),

@@ -11,6 +11,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     id: json['id'] as int,
     email: json['email'] as String,
     publicId: json['public_id'] as String,
+    shareLink: json['share_link'] as String,
     dateJoined: json['date_joined'] == null
         ? null
         : DateTime.parse(json['date_joined'] as String),
@@ -28,7 +29,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     address: json['address'] == null
         ? null
         : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
-  )..currentVenue = json['current_venue'] as int;
+    currentVenue: json['current_venue'] as int,
+  );
 }
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -39,8 +41,9 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'first_name': instance.firstName,
       'last_name': instance.lastName,
       'is_locked': instance.isLocked,
-      'current_venue': instance.currentVenue,
+      'share_link': instance.shareLink,
       'coordinates': instance.coordinates?.toJson(),
       'address': instance.address?.toJson(),
       'venues': instance.venues?.map((e) => e?.toJson())?.toList(),
+      'current_venue': instance.currentVenue,
     };

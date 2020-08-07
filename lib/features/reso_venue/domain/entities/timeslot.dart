@@ -1,3 +1,4 @@
+import 'package:Reso_venue/features/reso_venue/domain/entities/user.dart';
 import 'package:equatable/equatable.dart';
 import 'venue.dart';
 
@@ -10,6 +11,7 @@ class TimeSlot extends Equatable {
   final bool current;
   final bool past;
   final String type;
+  final List<User> attendees;
   TimeSlot({
     this.start,
     this.stop,
@@ -19,6 +21,7 @@ class TimeSlot extends Equatable {
     this.current,
     this.past,
     this.type,
+    this.attendees,
   });
   static const List<String> types = ["All", "Elderly", "Frontline"];
 

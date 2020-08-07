@@ -30,5 +30,9 @@ class Urls {
   static String getIncrementUrl(int venueId) {
     return getBaseURL() + "api/myadmin/" + venueId.toString() + "/increment/";
   }
+
+  static String getNotesUrl(int venueid, int timeslotid) {
+    return getBaseURL() + "api/myadmin/" + venueid.toString() + "/timeslots/" + timeslotid.toString() + "/notes/";
+  }
   
 }

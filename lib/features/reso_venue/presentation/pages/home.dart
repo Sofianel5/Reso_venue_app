@@ -49,8 +49,10 @@ class _HomePageState extends State<HomePage> {
       child: ScanScreen(),
     ),
     BlocProvider(
-      create: (context) =>
-          AccountPageBloc(BlocProvider.of<RootBloc>(context).user),
+      create: (context) => AccountPageBloc(
+        BlocProvider.of<RootBloc>(context).user,
+        BlocProvider.of<RootBloc>(context).changeVenue,
+      ),
       child: AccountScreen(),
     ),
   ];

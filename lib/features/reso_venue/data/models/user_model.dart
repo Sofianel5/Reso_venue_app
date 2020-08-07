@@ -14,11 +14,12 @@ class UserModel extends User implements Model {
   final CoordinatesModel coordinates;
   final AddressModel address;
   final List<VenueModel> venues;
-  int currentVenue = 0;
+  int currentVenue;
   UserModel({
     @required int id,
     String email,
     String publicId,
+    String shareLink,
     DateTime dateJoined,
     @required String firstName,
     @required String lastName,
@@ -26,17 +27,20 @@ class UserModel extends User implements Model {
     this.venues,
     this.coordinates,
     this.address,
-  }) : this.currentVenue = 0, super(
+    this.currentVenue=0
+  }): super(
           id: id,
           email: email,
           publicId: publicId,
           dateJoined: dateJoined,
           firstName: firstName,
+          shareLink: shareLink,
           lastName: lastName,
           isLocked: isLocked,
           venues: venues,
           address: address,
           coordinates: coordinates,
+          currentVenue: currentVenue,
         );
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

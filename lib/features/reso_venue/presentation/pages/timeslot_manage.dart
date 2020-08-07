@@ -95,7 +95,8 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
                           },
                         ),
                       ),
-                      Text(Localizer.of(context).get("manage-timeslot"), style: Theme.of(context).textTheme.title),
+                      Text(Localizer.of(context).get("manage-timeslot"),
+                          style: Theme.of(context).textTheme.title),
                       Container(
                         width: 40,
                       ),
@@ -172,7 +173,9 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
                                 ),
-                              )
+                              ),
+                              SizedBox(height: 30),
+                              _buildFunctionsRow(rootBloc, state)
                             ],
                           ),
                         ),
@@ -235,6 +238,40 @@ class _ManageScreenChildState extends State<ManageScreenChild> {
         ),
       ];
     }
+  }
+
+  Widget _buildFunctionsRow(RootBloc bloc, TimeSlotManageState state) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (state.user.venues[state.user.currentVenue].allowsNamedAttendees)
+          _buildSeeAttendeeList(bloc, state),
+        _buildNotesButton(bloc, state)
+      ],
+    );
+  }
+
+  Widget _buildNotesButton(RootBloc bloc, TimeSlotManageState state) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5),
+        child: RaisedButton(
+          child: Text("Edit Notes"),
+          onPressed: () => bloc.add(
+            PushNotesPage(state.timeSlot),
+          ),
+        ));
+  }
+
+  Widget _buildSeeAttendeeList(RootBloc bloc, TimeSlotManageState state) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      child: RaisedButton(
+        child: Text("See Attendees"),
+        onPressed: () => bloc.add(
+          PushAttendeeList(state.timeSlot),
+        ),
+      ),
+    );
   }
 
   Widget _buildDeleteButton(TimeSlotManageState state, TimeSlotManageBloc bloc,

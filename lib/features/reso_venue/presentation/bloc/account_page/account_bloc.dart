@@ -2,10 +2,8 @@ part of '../root_bloc.dart';
 
 class AccountPageBloc extends Bloc<AccountPageEvent, AccountState> {
   User user;
-  AccountPageBloc(this.user);
-  Stream<RootState> route(AccountPageEvent event, User user) async* {
-    yield AccountLoadedState(user);
-  }
+  AccountPageBloc(this.user, this.changeVenue);
+  ChangeVenue changeVenue;
 
   @override
   AccountState get initialState => AccountLoadedState(user);
@@ -15,8 +13,15 @@ class AccountPageBloc extends Bloc<AccountPageEvent, AccountState> {
     if (event is AccountPageOpened) {
       yield AccountLoadedState(user);
     } else if (event is AccountVenueChange) {
-      user.currentVenue = event.idx;
-      yield AccountLoadedState(user);
+      yield* (await changeVenue(ChangeVenueParams(user, event.idx))).fold((failure) async* {
+        print("failed");
+        print(user.currentVenue);
+        yield AccountLoadedState(user);
+      }, (user) async* {
+        print("change succeeded");
+        print(user.currentVenue);
+        yield AccountLoadedState(user);
+      });
     }
   }
 }

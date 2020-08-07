@@ -16,9 +16,12 @@ abstract class LocalDataSource {
   Future<Coordinates> getCoordinates() {}
   Future<void> cacheUser(UserModel user) {}
   Future<User> getCachedUser() {}
+  Future<int> getCurrentVenue() {}
+  Future<void> cacheCurrentVenue(int index) {}
 }
 const String AUTH_TOKEN_KEY = "authtoken";
 const String USER_KEY = "user";
+const String CURRENT_VENUE_KEY = "CURRENT_VENUE";
 
 class LocalDataSourceImpl implements LocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -70,6 +73,8 @@ class LocalDataSourceImpl implements LocalDataSource {
     return await _setString(AUTH_TOKEN_KEY, token);
   }
 
+  
+
   @override 
   Future<void> clearData() async {
     try {
@@ -110,5 +115,15 @@ class LocalDataSourceImpl implements LocalDataSource {
   Future<User> getCachedUser() async {
     Map<String, dynamic> userJson = await _getJson(USER_KEY);
     return UserModel.fromJson(userJson);
+  }
+
+  @override
+  Future<int> getCurrentVenue() async {
+    return int.parse(await _getString(CURRENT_VENUE_KEY));
+  }
+
+  @override
+  Future<void> cacheCurrentVenue(int index) async {
+    return await _setString(CURRENT_VENUE_KEY, index.toString());
   }
 }
